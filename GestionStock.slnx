@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="GestionStock.Api/GestionStock.Api.csproj" />
+  <Project Path="GestionStock.Mobile/GestionStock.Mobile.csproj" />
+  <Project Path="GestionStock.Shared/GestionStock.Shared.csproj" />
+</Solution>
