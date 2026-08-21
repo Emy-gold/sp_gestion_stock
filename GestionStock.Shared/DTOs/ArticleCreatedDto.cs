@@ -1,0 +1,11 @@
+namespace GestionStock.Shared.DTOs;
+
+public class ArticleCreateDto
+{
+    public string Reference { get; set; } = string.Empty;
+    public string Designation { get; set; } = string.Empty;
+    public string? Description { get; set; }
+    public string? Image { get; set; }
+    public string? CodeBarre { get; set; }
+    public int CategoryArticleId { get; set; }
+}

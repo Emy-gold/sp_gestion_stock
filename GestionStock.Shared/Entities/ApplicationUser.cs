@@ -10,7 +10,7 @@
 
         //Navigation
         public ICollection<Operation> OperationsCreees { get; set; } = new List<Operation>();
-        public ICollection<Operation> OperationModifiees { get; set; } = new List<Operation>();
+        public ICollection<Operation> OperationsModifiees { get; set; } = new List<Operation>();
 
     }
 }

@@ -4,7 +4,7 @@
 public class Article
 {
 	public int Id { get; set; }
-	public string Reference { get; set } = string.Empty;
+	public string Reference { get; set; } = string.Empty;
 	public string Designation {  get; set; } = string.Empty;
 	public string? Description {  get; set; }
 	public string? Image {  get; set; }

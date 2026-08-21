@@ -4,8 +4,8 @@
     public class Operation
     {
 
-        private int Id {  get; set; }
-        private string Numero { get; set; } = string.Empty;
+        public int Id {  get; set; }
+        public string Numero { get; set; } = string.Empty;
         public DateTime DateOperation { get; set; }
         public string? Observation { get; set; }
 
@@ -40,6 +40,6 @@
         public int? FournisseurId {  get; set; }
         public Fournisseur? Fournisseur { get; set; }
 
-        public ICollection<DetailOperation> DetailOperations { get; set; } = new List<DetailOperation>;
+        public ICollection<DetailOperation> DetailOperations { get; set; } = new List<DetailOperation>();
     }
 }
