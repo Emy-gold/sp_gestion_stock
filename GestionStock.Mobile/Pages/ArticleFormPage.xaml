@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionStock.Mobile.Pages.ArticleFormPage"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Référence" FontAttributes="Bold" />
+            <Entry x:Name="ReferenceEntry" Placeholder="Ex: ART-001" />
+
+            <Label Text="Désignation" FontAttributes="Bold" />
+            <Entry x:Name="DesignationEntry" Placeholder="Nom de l'article" />
+
+            <Label Text="Description" FontAttributes="Bold" />
+            <Editor x:Name="DescriptionEditor" HeightRequest="80" Placeholder="Description (optionnel)" />
+
+            <Label Text="Code-barres" FontAttributes="Bold" />
+            <Entry x:Name="CodeBarreEntry" Placeholder="Optionnel" />
+
+            <Label Text="Catégorie" FontAttributes="Bold" />
+            <Picker x:Name="CategoryPicker" Title="Sélectionner une catégorie" ItemDisplayBinding="{Binding Nom}" />
+
+            <Label x:Name="ErrorLabel" TextColor="Red" IsVisible="False" />
+
+            <Button x:Name="SaveButton" Text="Enregistrer" Clicked="OnSaveClicked" Margin="0,10,0,0" />
+            <ActivityIndicator x:Name="SavingIndicator" IsRunning="False" IsVisible="False" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

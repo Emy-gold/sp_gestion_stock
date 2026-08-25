@@ -26,7 +26,11 @@ namespace GestionStock.Mobile
                 BaseAddress = new Uri(ApiConfig.BaseUrl)
             });
 
+            builder.Services.AddSingleton<CategoryArticleApiService>();
+
             builder.Services.AddSingleton<ArticleApiService>();
+
+            builder.Services.AddTransient<ArticleFormPage>();
 
             builder.Services.AddTransient<ArticlesPage>();
 
