@@ -74,4 +74,10 @@
 	  <ProjectReference Include="..\GestionStock.Shared\GestionStock.Shared.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Pages\ArticlesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

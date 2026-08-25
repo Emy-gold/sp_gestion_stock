@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionStock.Mobile.Pages.ArticlesPage"
+             Title="Articles">
+
+    <Grid RowDefinitions="Auto,*" Padding="10">
+
+        <!-- Barre d'action -->
+        <HorizontalStackLayout Grid.Row="0" Spacing="10" Margin="0,0,0,10">
+            <Button Text="Rafraîchir" Clicked="OnRefreshClicked" />
+            <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False" />
+        </HorizontalStackLayout>
+
+        <!-- Liste des articles -->
+        <RefreshView Grid.Row="1" x:Name="RefreshViewControl" Refreshing="OnRefreshing">
+            <CollectionView x:Name="ArticlesCollectionView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Stroke="LightGray" StrokeThickness="1" Margin="0,0,0,8" Padding="12">
+                            <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                                <Label Grid.Row="0" Text="{Binding Designation}" FontAttributes="Bold" FontSize="16" />
+                                <Label Grid.Row="1" Text="{Binding Reference}" FontSize="13" TextColor="Gray" />
+                                <HorizontalStackLayout Grid.Row="2" Spacing="15">
+                                    <Label Text="{Binding StockActuel, StringFormat='Stock: {0}'}" FontSize="13" />
+                                    <Label Text="{Binding CategoryArticleNom}" FontSize="13" TextColor="DarkBlue" />
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.EmptyView>
+                    <Label Text="Aucun article trouvé." HorizontalOptions="Center" Margin="20" />
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </RefreshView>
+
+    </Grid>
+</ContentPage>
