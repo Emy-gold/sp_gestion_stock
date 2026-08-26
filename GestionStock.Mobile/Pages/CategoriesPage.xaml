@@ -42,6 +42,9 @@
                                 BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
                                 StrokeThickness="1"
                                 Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCategoryTapped" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="14" />
                             </Border.StrokeShape>
@@ -100,5 +103,21 @@
                 </CollectionView.EmptyView>
             </CollectionView>
         </RefreshView>
+
+        <!-- Floating Action Button (FAB) -->
+        <Button Grid.Row="1"
+                Text="＋"
+                Clicked="OnAddCategoryClicked"
+                BackgroundColor="#F5A623"
+                TextColor="White"
+                FontSize="28"
+                FontAttributes="Bold"
+                CornerRadius="30"
+                HeightRequest="60"
+                WidthRequest="60"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="20"
+                Shadow="{Shadow Brush=Black, Offset='0,5', Opacity=0.3, Radius=8}" />
     </Grid>
 </ContentPage>

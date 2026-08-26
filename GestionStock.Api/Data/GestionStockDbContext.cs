@@ -1,4 +1,4 @@
-﻿using GestionStock.Shared.Entities;
+using GestionStock.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestionStock.Api.Data;
@@ -27,6 +27,12 @@ public class GestionStockDbContext : DbContext
 			.HasForeignKey(c => c.ParentId)
 			.OnDelete(DeleteBehavior.Restrict);
 
+		var dictComparer = new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<Dictionary<string, string>>(
+			(c1, c2) => c1.SequenceEqual(c2),
+			c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+			c => c.ToDictionary(entry => entry.Key, entry => entry.Value)
+		);
+
 		// Colonne JSON native EF core 8
 		modelBuilder.Entity<CategoryArticle>()
 			.Property(c => c.Attributes)
@@ -34,7 +40,8 @@ public class GestionStockDbContext : DbContext
 			.HasConversion(
 				v => System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
 				v => System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(v, (System.Text.Json.JsonSerializerOptions?)null)
-			);
+			)
+			.Metadata.SetValueComparer(dictComparer);
 
 
 		// CategoryOperation : meme logique Json
@@ -44,7 +51,8 @@ public class GestionStockDbContext : DbContext
 			.HasConversion(
                 v => System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
                 v => System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(v, (System.Text.Json.JsonSerializerOptions?)null)
-            );
+            )
+			.Metadata.SetValueComparer(dictComparer);
 
 
 		//Operation : auto-reference 
@@ -107,6 +115,8 @@ public class GestionStockDbContext : DbContext
 		modelBuilder.Entity<Article>().HasIndex(a => a.CodeBarre);
 		modelBuilder.Entity<Operation>().HasIndex(o => o.Numero).IsUnique();
 
+		modelBuilder.Entity<Article>().Property(a => a.StockActuel).HasPrecision(18, 2);
+		modelBuilder.Entity<DetailOperation>().Property(d => d.Quantite).HasPrecision(18, 2);
 	}
 
 

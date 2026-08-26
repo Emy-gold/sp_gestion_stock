@@ -93,7 +93,7 @@ namespace GestionStock.Api.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CodeBarre = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    StockActuel = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    StockActuel = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Actif = table.Column<bool>(type: "bit", nullable: false),
                     CategoryArticleId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -176,7 +176,7 @@ namespace GestionStock.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Quantite = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Quantite = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Emplacement = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Remarque = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OperationId = table.Column<int>(type: "int", nullable: false),

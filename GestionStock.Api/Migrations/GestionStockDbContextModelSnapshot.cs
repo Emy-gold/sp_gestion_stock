@@ -82,6 +82,7 @@ namespace GestionStock.Api.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("StockActuel")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -169,6 +170,7 @@ namespace GestionStock.Api.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Quantite")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Remarque")

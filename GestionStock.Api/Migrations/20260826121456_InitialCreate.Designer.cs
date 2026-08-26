@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionStock.Api.Migrations
 {
     [DbContext(typeof(GestionStockDbContext))]
-    [Migration("20260820163010_InitialCreate")]
+    [Migration("20260826121456_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -85,6 +85,7 @@ namespace GestionStock.Api.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("StockActuel")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -172,6 +173,7 @@ namespace GestionStock.Api.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Quantite")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Remarque")

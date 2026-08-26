@@ -103,7 +103,7 @@
         <ShellContent ContentTemplate="{DataTemplate pages:ArticlesPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Catégories" Icon="dotnet_bot.png" Route="CategoriesPage">
+    <FlyoutItem Title="Gestion catégories" Icon="dotnet_bot.png" Route="CategoriesPage">
         <ShellContent ContentTemplate="{DataTemplate pages:CategoriesPage}" />
     </FlyoutItem>
 

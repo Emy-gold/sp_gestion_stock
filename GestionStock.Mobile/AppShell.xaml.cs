@@ -17,6 +17,7 @@ public partial class AppShell : Shell
         _authService = authService;
 
         Routing.RegisterRoute(nameof(ArticleFormPage), typeof(ArticleFormPage));
+        Routing.RegisterRoute(nameof(CategoryFormPage), typeof(CategoryFormPage));
 
         UpdateFlyoutHeader();
     }

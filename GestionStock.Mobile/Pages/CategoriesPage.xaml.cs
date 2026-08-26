@@ -56,4 +56,17 @@ public partial class CategoriesPage : ContentPage
     {
         await LoadCategoriesAsync();
     }
+
+    private async void OnAddCategoryClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(CategoryFormPage));
+    }
+
+    private async void OnCategoryTapped(object? sender, TappedEventArgs e)
+    {
+        if (e.Parameter is CategoryArticleDto category)
+        {
+            await Shell.Current.GoToAsync($"{nameof(CategoryFormPage)}?categoryId={category.Id}");
+        }
+    }
 }
