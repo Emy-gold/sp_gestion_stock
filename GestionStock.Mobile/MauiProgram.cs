@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using GestionStock.Mobile.Services;
 using GestionStock.Mobile.Pages;
 
@@ -18,21 +18,30 @@ namespace GestionStock.Mobile
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
+            // HTTP Client
             builder.Services.AddSingleton(sp => new HttpClient(ApiHttpClientHandler.GetPlatformHandler())
             {
                 BaseAddress = new Uri(ApiConfig.BaseUrl)
             });
 
+            // Services
+            builder.Services.AddSingleton<AuthService>();
             builder.Services.AddSingleton<CategoryArticleApiService>();
-
             builder.Services.AddSingleton<ArticleApiService>();
+            builder.Services.AddSingleton<FournisseurApiService>();
+            builder.Services.AddSingleton<OperationApiService>();
 
-            builder.Services.AddTransient<ArticleFormPage>();
-
+            // Pages
+            builder.Services.AddTransient<LoginPage>();
+            builder.Services.AddTransient<DashboardPage>();
             builder.Services.AddTransient<ArticlesPage>();
+            builder.Services.AddTransient<ArticleFormPage>();
+            builder.Services.AddTransient<CategoriesPage>();
+            builder.Services.AddTransient<OperationsPage>();
+            builder.Services.AddTransient<FournisseursPage>();
 
             return builder.Build();
         }

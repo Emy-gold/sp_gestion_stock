@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionStock.Mobile.Pages.CategoriesPage"
+             Title="Catégories"
+             BackgroundColor="{AppThemeBinding Light=#F1F5F9, Dark=#0B132B}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Barre de recherche -->
+        <Border Grid.Row="0"
+                Margin="16,12,16,8"
+                Padding="12,0"
+                BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}"
+                StrokeThickness="1.5">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12" />
+            </Border.StrokeShape>
+            <Grid ColumnDefinitions="Auto,*">
+                <Label Grid.Column="0" Text="🔍" FontSize="14" VerticalOptions="Center" Margin="0,0,8,0" />
+                <SearchBar Grid.Column="1"
+                           x:Name="CategorySearchBar"
+                           Placeholder="Rechercher une catégorie..."
+                           TextChanged="OnSearchTextChanged"
+                           BackgroundColor="Transparent"
+                           HeightRequest="44" />
+            </Grid>
+        </Border>
+
+        <!-- Liste des catégories -->
+        <RefreshView Grid.Row="1"
+                     x:Name="CategoriesRefreshView"
+                     Refreshing="OnRefreshing"
+                     RefreshColor="#F5A623">
+            <CollectionView x:Name="CategoriesCollectionView"
+                            Margin="16,0,16,16">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,6,0,6"
+                                Padding="16"
+                                BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                                StrokeThickness="1"
+                                Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                <Border Grid.Column="0"
+                                        HeightRequest="44"
+                                        WidthRequest="44"
+                                        BackgroundColor="#EFF6FF"
+                                        StrokeThickness="0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+                                    <Label Text="🏷️" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="3">
+                                    <Label Text="{Binding Nom}"
+                                           FontAttributes="Bold"
+                                           FontSize="15"
+                                           TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}" />
+                                    <Label Text="{Binding Description, TargetNullValue='Aucune description'}"
+                                           FontSize="12"
+                                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                           LineBreakMode="TailTruncation" />
+                                </VerticalStackLayout>
+
+                                <Border Grid.Column="2"
+                                        BackgroundColor="#F1F5F9"
+                                        Padding="8,4"
+                                        StrokeThickness="0"
+                                        VerticalOptions="Center">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8" />
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding Id, StringFormat='ID #{0}'}"
+                                           FontSize="11"
+                                           TextColor="#64748B" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Margin="40"
+                                         Spacing="10">
+                        <Label Text="🏷️" FontSize="44" HorizontalOptions="Center" />
+                        <Label Text="Aucune catégorie trouvée"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

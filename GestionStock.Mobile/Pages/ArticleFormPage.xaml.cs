@@ -11,10 +11,20 @@ public partial class ArticleFormPage : ContentPage
 
     private List<CategoryArticleDto> _categories = new();
     private ArticleDto? _existingArticle;
+    private string? _selectedImageBase64;
 
     public string? ArticleId { get; set; }
 
-    public string Title { get; set; } = "Nouvel article";
+    private string _formTitle = "Nouvel article";
+    public string FormTitle
+    {
+        get => _formTitle;
+        set
+        {
+            _formTitle = value;
+            OnPropertyChanged();
+        }
+    }
 
     public ArticleFormPage(ArticleApiService articleApiService, CategoryArticleApiService categoryApiService)
     {
@@ -31,8 +41,14 @@ public partial class ArticleFormPage : ContentPage
 
         if (!string.IsNullOrEmpty(ArticleId) && int.TryParse(ArticleId, out var id))
         {
-            Title = "Modifier l'article";
+            FormTitle = "Modifier l'article";
+            DeleteButton.IsVisible = true;
             await LoadExistingArticleAsync(id);
+        }
+        else
+        {
+            FormTitle = "Nouvel article";
+            DeleteButton.IsVisible = false;
         }
     }
 
@@ -62,6 +78,12 @@ public partial class ArticleFormPage : ContentPage
             DescriptionEditor.Text = _existingArticle.Description;
             CodeBarreEntry.Text = _existingArticle.CodeBarre;
 
+            if (!string.IsNullOrEmpty(_existingArticle.Image))
+            {
+                _selectedImageBase64 = _existingArticle.Image;
+                ShowImagePreview(_selectedImageBase64);
+            }
+
             var matchingCategory = _categories.FirstOrDefault(c => c.Id == _existingArticle.CategoryArticleId);
             if (matchingCategory != null)
                 CategoryPicker.SelectedItem = matchingCategory;
@@ -72,16 +94,115 @@ public partial class ArticleFormPage : ContentPage
         }
     }
 
-    private async void OnSaveClicked(object sender, EventArgs e)
+    private async void OnPickPhotoClicked(object? sender, EventArgs e)
+    {
+        try
+        {
+            if (MediaPicker.Default.IsCaptureSupported)
+            {
+                var photo = await MediaPicker.Default.PickPhotoAsync();
+                if (photo != null)
+                {
+                    await ProcessSelectedPhoto(photo);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erreur", $"Impossible de sélectionner la photo : {ex.Message}", "OK");
+        }
+    }
+
+    private async void OnTakePhotoClicked(object? sender, EventArgs e)
+    {
+        try
+        {
+            if (MediaPicker.Default.IsCaptureSupported)
+            {
+                var photo = await MediaPicker.Default.CapturePhotoAsync();
+                if (photo != null)
+                {
+                    await ProcessSelectedPhoto(photo);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erreur", $"Impossible de capturer la photo : {ex.Message}", "OK");
+        }
+    }
+
+    private async Task ProcessSelectedPhoto(FileResult photo)
+    {
+        using var stream = await photo.OpenReadAsync();
+        using var memoryStream = new MemoryStream();
+        await stream.CopyToAsync(memoryStream);
+        var bytes = memoryStream.ToArray();
+
+        var contentType = photo.ContentType ?? "image/jpeg";
+        _selectedImageBase64 = $"data:{contentType};base64,{Convert.ToBase64String(bytes)}";
+
+        ShowImagePreview(_selectedImageBase64);
+    }
+
+    private void ShowImagePreview(string imageSource)
+    {
+        ArticleImagePreview.Source = imageSource;
+        ArticleImagePreview.IsVisible = true;
+        ImagePlaceholderContainer.IsVisible = false;
+        RemovePhotoButton.IsVisible = true;
+    }
+
+    private void OnRemovePhotoClicked(object? sender, EventArgs e)
+    {
+        _selectedImageBase64 = null;
+        ArticleImagePreview.Source = null;
+        ArticleImagePreview.IsVisible = false;
+        ImagePlaceholderContainer.IsVisible = true;
+        RemovePhotoButton.IsVisible = false;
+    }
+
+    private async void OnDeleteClicked(object? sender, EventArgs e)
+    {
+        if (_existingArticle == null)
+            return;
+
+        var confirm = await DisplayAlert("Confirmation", $"Voulez-vous vraiment supprimer l'article '{_existingArticle.Designation}' ?", "Supprimer", "Annuler");
+        if (!confirm)
+            return;
+
+        try
+        {
+            var success = await _articleApiService.DeleteArticleAsync(_existingArticle.Id);
+            if (success)
+            {
+                await DisplayAlert("Succès", "Article supprimé avec succès.", "OK");
+                await Shell.Current.GoToAsync("..");
+            }
+            else
+            {
+                await DisplayAlert("Erreur", "Impossible de supprimer l'article.", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erreur", ex.Message, "OK");
+        }
+    }
+
+    private async void OnSaveClicked(object? sender, EventArgs e)
     {
         ErrorLabel.IsVisible = false;
         ErrorContainer.IsVisible = false;
 
-        if (string.IsNullOrWhiteSpace(ReferenceEntry.Text) ||
-            string.IsNullOrWhiteSpace(DesignationEntry.Text) ||
+        var reference = ReferenceEntry.Text?.Trim();
+        var designation = DesignationEntry.Text?.Trim();
+
+        if (string.IsNullOrWhiteSpace(reference) ||
+            string.IsNullOrWhiteSpace(designation) ||
             CategoryPicker.SelectedItem is not CategoryArticleDto selectedCategory)
         {
-            ErrorLabel.Text = "Référence, désignation et catégorie sont obligatoires.";
+            ErrorLabel.Text = "La référence, la désignation et la catégorie sont obligatoires.";
             ErrorLabel.IsVisible = true;
             ErrorContainer.IsVisible = true;
             return;
@@ -99,10 +220,11 @@ public partial class ArticleFormPage : ContentPage
             {
                 var createDto = new ArticleCreateDto
                 {
-                    Reference = ReferenceEntry.Text,
-                    Designation = DesignationEntry.Text,
-                    Description = DescriptionEditor.Text,
-                    CodeBarre = CodeBarreEntry.Text,
+                    Reference = reference,
+                    Designation = designation,
+                    Description = DescriptionEditor.Text?.Trim(),
+                    CodeBarre = CodeBarreEntry.Text?.Trim(),
+                    Image = _selectedImageBase64,
                     CategoryArticleId = selectedCategory.Id
                 };
                 success = await _articleApiService.CreateArticleAsync(createDto);
@@ -111,10 +233,11 @@ public partial class ArticleFormPage : ContentPage
             {
                 var updateDto = new ArticleUpdateDto
                 {
-                    Reference = ReferenceEntry.Text,
-                    Designation = DesignationEntry.Text,
-                    Description = DescriptionEditor.Text,
-                    CodeBarre = CodeBarreEntry.Text,
+                    Reference = reference,
+                    Designation = designation,
+                    Description = DescriptionEditor.Text?.Trim(),
+                    CodeBarre = CodeBarreEntry.Text?.Trim(),
+                    Image = _selectedImageBase64,
                     CategoryArticleId = selectedCategory.Id,
                     Actif = true
                 };
@@ -127,7 +250,7 @@ public partial class ArticleFormPage : ContentPage
             }
             else
             {
-                ErrorLabel.Text = "Échec de l'enregistrement. Vérifie les données saisies.";
+                ErrorLabel.Text = "Échec de l'enregistrement. Vérifiez les informations saisies.";
                 ErrorLabel.IsVisible = true;
                 ErrorContainer.IsVisible = true;
             }

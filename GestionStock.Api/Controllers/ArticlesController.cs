@@ -73,14 +73,18 @@ public class ArticlesController : ControllerBase
 	[HttpPost]
 	public async Task<ActionResult<ArticleDto>> CreateArticle(ArticleCreateDto dto)
 	{
-		var categoryExists = await _context.CategoryArticles.AnyAsync(c => c.Id == dto.CategoryArticleId);
-		if (!categoryExists)
-			return BadRequest("CategoryArticleId invalide.");
+		var refExists = await _context.Articles.AnyAsync(a => a.Reference.ToLower() == dto.Reference.Trim().ToLower());
+		if (refExists)
+			return BadRequest($"Un article avec la référence '{dto.Reference}' existe déjà.");
+
+		var category = await _context.CategoryArticles.FindAsync(dto.CategoryArticleId);
+		if (category == null)
+			return BadRequest("Catégorie sélectionnée invalide.");
 
 		var article = new Article
 		{
-			Reference = dto.Reference,
-			Designation = dto.Designation,
+			Reference = dto.Reference.Trim(),
+			Designation = dto.Designation.Trim(),
 			Description = dto.Description,
 			Image = dto.Image,
 			CodeBarre = dto.CodeBarre,
@@ -92,7 +96,21 @@ public class ArticlesController : ControllerBase
 		_context.Articles.Add(article);
 		await _context.SaveChangesAsync();
 
-		return CreatedAtAction(nameof(GetArticle), new { id = article.Id }, article);
+		var articleDto = new ArticleDto
+		{
+			Id = article.Id,
+			Reference = article.Reference,
+			Designation = article.Designation,
+			Description = article.Description,
+			Image = article.Image,
+			CodeBarre = article.CodeBarre,
+			StockActuel = article.StockActuel,
+			Actif = article.Actif,
+			CategoryArticleId = article.CategoryArticleId,
+			CategoryArticleNom = category.Nom
+		};
+
+		return CreatedAtAction(nameof(GetArticle), new { id = article.Id }, articleDto);
 	}
 
 	// PUT: api/articles/5
@@ -101,10 +119,18 @@ public class ArticlesController : ControllerBase
 	{
 		var article = await _context.Articles.FindAsync(id);
 		if (article is null)
-			return NotFound();
+			return NotFound("Article introuvable.");
 
-		article.Reference = dto.Reference;
-		article.Designation = dto.Designation;
+		var refExists = await _context.Articles.AnyAsync(a => a.Reference.ToLower() == dto.Reference.Trim().ToLower() && a.Id != id);
+		if (refExists)
+			return BadRequest($"Un autre article avec la référence '{dto.Reference}' existe déjà.");
+
+		var categoryExists = await _context.CategoryArticles.AnyAsync(c => c.Id == dto.CategoryArticleId);
+		if (!categoryExists)
+			return BadRequest("Catégorie sélectionnée invalide.");
+
+		article.Reference = dto.Reference.Trim();
+		article.Designation = dto.Designation.Trim();
 		article.Description = dto.Description;
 		article.Image = dto.Image;
 		article.CodeBarre = dto.CodeBarre;

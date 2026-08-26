@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionStock.Mobile.Pages.DashboardPage"
+             Title="Tableau de bord"
+             BackgroundColor="{AppThemeBinding Light=#F1F5F9, Dark=#0B132B}">
+
+    <RefreshView x:Name="DashboardRefreshView" Refreshing="OnRefreshing" RefreshColor="#F5A623">
+        <ScrollView>
+            <VerticalStackLayout Spacing="20" Padding="16">
+
+                <!-- Bannière d'accueil -->
+                <Border BackgroundColor="#1A2B4A"
+                        Padding="20"
+                        StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="Bienvenue 👋"
+                                   TextColor="#CBD5E1"
+                                   FontSize="13" />
+                            <Label x:Name="UserNameLabel"
+                                   Text="Administrateur"
+                                   TextColor="White"
+                                   FontSize="20"
+                                   FontAttributes="Bold" />
+                            <Label Text="Standard Profil — Gestion de Stock"
+                                   TextColor="#F5A623"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   Margin="0,4,0,0" />
+                        </VerticalStackLayout>
+
+                        <Border Grid.Column="1"
+                                StrokeShape="RoundRectangle 16"
+                                BackgroundColor="#2E4270"
+                                Padding="8"
+                                HeightRequest="56"
+                                WidthRequest="56"
+                                VerticalOptions="Center"
+                                StrokeThickness="0">
+                            <Image Source="standard_profil_logo.png" Aspect="AspectFit" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Titre Section KPI -->
+                <Label Text="STATISTIQUES GÉNÉRALES"
+                       FontSize="11"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                       CharacterSpacing="1"
+                       Margin="4,0,0,-8" />
+
+                <!-- Grille des indicateurs KPI -->
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+
+                    <!-- Total Articles -->
+                    <Border Grid.Row="0" Grid.Column="0"
+                            Padding="16"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                            StrokeThickness="1"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="16" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="📦" FontSize="20" />
+                                <Label Text="Articles"
+                                       FontSize="12"
+                                       TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Label x:Name="TotalArticlesLabel"
+                                   Text="0"
+                                   FontSize="26"
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}" />
+                            <Label Text="références actives"
+                                   FontSize="11"
+                                   TextColor="{AppThemeBinding Light=#94A3B8, Dark=#64748B}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Stock Faible / Rupture -->
+                    <Border Grid.Row="0" Grid.Column="1"
+                            Padding="16"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                            StrokeThickness="1"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="16" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="⚠️" FontSize="20" />
+                                <Label Text="Alertes Stock"
+                                       FontSize="12"
+                                       TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Label x:Name="StockAlertsLabel"
+                                   Text="0"
+                                   FontSize="26"
+                                   FontAttributes="Bold"
+                                   TextColor="#E74C3C" />
+                            <Label Text="stock ≤ 5 unités"
+                                   FontSize="11"
+                                   TextColor="{AppThemeBinding Light=#94A3B8, Dark=#64748B}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Catégories -->
+                    <Border Grid.Row="1" Grid.Column="0"
+                            Padding="16"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                            StrokeThickness="1"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="16" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="🏷️" FontSize="20" />
+                                <Label Text="Catégories"
+                                       FontSize="12"
+                                       TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Label x:Name="TotalCategoriesLabel"
+                                   Text="0"
+                                   FontSize="26"
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}" />
+                            <Label Text="familles de stock"
+                                   FontSize="11"
+                                   TextColor="{AppThemeBinding Light=#94A3B8, Dark=#64748B}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Fournisseurs -->
+                    <Border Grid.Row="1" Grid.Column="1"
+                            Padding="16"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                            StrokeThickness="1"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="16" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="🏢" FontSize="20" />
+                                <Label Text="Fournisseurs"
+                                       FontSize="12"
+                                       TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Label x:Name="TotalFournisseursLabel"
+                                   Text="0"
+                                   FontSize="26"
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}" />
+                            <Label Text="partenaires enregistrés"
+                                   FontSize="11"
+                                   TextColor="{AppThemeBinding Light=#94A3B8, Dark=#64748B}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Actions Rapides -->
+                <Label Text="ACCÈS RAPIDE"
+                       FontSize="11"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                       CharacterSpacing="1"
+                       Margin="4,6,0,-8" />
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <Button Grid.Column="0"
+                            Text="＋ Nouvel Article"
+                            Clicked="OnAddArticleClicked"
+                            BackgroundColor="#F5A623"
+                            TextColor="#1A2B4A"
+                            FontSize="13"
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            HeightRequest="48" />
+
+                    <Button Grid.Column="1"
+                            Text="📋 Liste Articles"
+                            Clicked="OnViewArticlesClicked"
+                            BackgroundColor="{AppThemeBinding Light=#1A2B4A, Dark=#2E4270}"
+                            TextColor="White"
+                            FontSize="13"
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            HeightRequest="48" />
+                </Grid>
+
+                <!-- Derniers Articles Ajoutés -->
+                <Grid ColumnDefinitions="*,Auto" Margin="4,8,4,-8">
+                    <Label Grid.Column="0"
+                           Text="DERNIERS ARTICLES"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                           CharacterSpacing="1" />
+                    <Button Grid.Column="1"
+                            Text="Voir tout →"
+                            Clicked="OnViewArticlesClicked"
+                            FontSize="11"
+                            TextColor="#3B82F6"
+                            BackgroundColor="Transparent"
+                            Padding="0"
+                            HeightRequest="24" />
+                </Grid>
+
+                <CollectionView x:Name="RecentArticlesCollectionView" HeightRequest="220">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,4,0,4"
+                                    Padding="12"
+                                    BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                                    StrokeThickness="1"
+                                    Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12" />
+                                </Border.StrokeShape>
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                    <Border Grid.Column="0"
+                                            HeightRequest="40"
+                                            WidthRequest="40"
+                                            BackgroundColor="#EFF6FF"
+                                            StrokeThickness="0">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="8" />
+                                        </Border.StrokeShape>
+                                        <Label Text="📦" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+                                    </Border>
+
+                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                        <Label Text="{Binding Designation}"
+                                               FontAttributes="Bold"
+                                               FontSize="14"
+                                               TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                                               LineBreakMode="TailTruncation" />
+                                        <Label Text="{Binding Reference}"
+                                               FontSize="12"
+                                               TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}" />
+                                    </VerticalStackLayout>
+
+                                    <Border Grid.Column="2"
+                                            BackgroundColor="#EFF6FF"
+                                            Padding="8,4"
+                                            StrokeThickness="0"
+                                            VerticalOptions="Center">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="8" />
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding StockActuel, StringFormat='Stock: {0}'}"
+                                               FontSize="11"
+                                               FontAttributes="Bold"
+                                               TextColor="#1A2B4A" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

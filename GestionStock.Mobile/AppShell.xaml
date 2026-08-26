@@ -4,30 +4,115 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:GestionStock.Mobile.Pages"
-    Shell.FlyoutBehavior="Disabled"
+    FlyoutBehavior="Flyout"
     Shell.BackgroundColor="#1A2B4A"
     Shell.ForegroundColor="White"
-    Shell.TitleColor="White">
+    Shell.TitleColor="White"
+    FlyoutBackgroundColor="{AppThemeBinding Light=#1A2B4A, Dark=#0A1220}">
 
+    <!-- En-tête Barre Supérieure -->
     <Shell.TitleView>
         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" Padding="0,4,0,4">
             <Image Grid.Column="0"
                    Source="standard_profil_logo.png"
-                   HeightRequest="32"
-                   WidthRequest="32"
+                   HeightRequest="28"
+                   WidthRequest="28"
                    Aspect="AspectFit" />
             <Label Grid.Column="1"
-                   Text="GestionStock"
+                   Text="Standard Profil"
                    TextColor="White"
                    FontAttributes="Bold"
-                   FontSize="18"
+                   FontSize="17"
                    VerticalOptions="Center" />
         </Grid>
     </Shell.TitleView>
 
-    <ShellContent
-        Title="Articles"
-        ContentTemplate="{DataTemplate pages:ArticlesPage}"
-        Route="ArticlesPage" />
+    <!-- En-tête du Menu Latéral (Flyout Header) -->
+    <Shell.FlyoutHeader>
+        <Grid BackgroundColor="#121F36" Padding="20,40,20,24" RowDefinitions="Auto,Auto,Auto" RowSpacing="6">
+            <HorizontalStackLayout Grid.Row="0" Spacing="12">
+                <!-- Avatar utilisateur -->
+                <Border HeightRequest="52"
+                        WidthRequest="52"
+                        BackgroundColor="#F5A623"
+                        StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="26" />
+                    </Border.StrokeShape>
+                    <Label x:Name="FlyoutAvatarInitial"
+                           Text="SP"
+                           TextColor="#1A2B4A"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Border>
 
-</Shell>
+                <VerticalStackLayout VerticalOptions="Center" Spacing="2">
+                    <Label x:Name="FlyoutUserName"
+                           Text="Admin"
+                           TextColor="White"
+                           FontSize="16"
+                           FontAttributes="Bold" />
+                    <Label x:Name="FlyoutUserEmail"
+                           Text="admin@standardprofil.com"
+                           TextColor="#94A3B8"
+                           FontSize="12" />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <!-- Badge Rôle -->
+            <Border Grid.Row="1"
+                    BackgroundColor="#2E4270"
+                    Padding="10,4"
+                    StrokeThickness="0"
+                    HorizontalOptions="Start"
+                    Margin="0,8,0,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12" />
+                </Border.StrokeShape>
+                <Label x:Name="FlyoutUserRole"
+                       Text="⭐ Administrateur"
+                       TextColor="#F5A623"
+                       FontSize="11"
+                       FontAttributes="Bold" />
+            </Border>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <!-- Pied du Menu Latéral (Flyout Footer) -->
+    <Shell.FlyoutFooter>
+        <Grid BackgroundColor="#121F36" Padding="16,14">
+            <Button Text="🚪  Se déconnecter"
+                    Clicked="OnLogoutClicked"
+                    BackgroundColor="#EF4444"
+                    TextColor="White"
+                    FontSize="13"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    HeightRequest="44" />
+        </Grid>
+    </Shell.FlyoutFooter>
+
+    <!-- Menu Items -->
+    <FlyoutItem Title="Tableau de bord" Icon="dotnet_bot.png" Route="DashboardPage">
+        <ShellContent ContentTemplate="{DataTemplate pages:DashboardPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Gestion des Articles" Icon="dotnet_bot.png" Route="ArticlesPage">
+        <ShellContent ContentTemplate="{DataTemplate pages:ArticlesPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Catégories" Icon="dotnet_bot.png" Route="CategoriesPage">
+        <ShellContent ContentTemplate="{DataTemplate pages:CategoriesPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Mouvements de Stock" Icon="dotnet_bot.png" Route="OperationsPage">
+        <ShellContent ContentTemplate="{DataTemplate pages:OperationsPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Fournisseurs" Icon="dotnet_bot.png" Route="FournisseursPage">
+        <ShellContent ContentTemplate="{DataTemplate pages:FournisseursPage}" />
+    </FlyoutItem>
+
+</Shell>

@@ -2,24 +2,120 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestionStock.Mobile.Pages.ArticleFormPage"
-             Title="{Binding Title}"
-             BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#0D1A30}">
+             Title="{Binding FormTitle}"
+             BackgroundColor="{AppThemeBinding Light=#F1F5F9, Dark=#0B132B}">
 
     <ScrollView>
         <VerticalStackLayout Spacing="0">
 
             <!-- En-tête coloré -->
-            <Grid BackgroundColor="{AppThemeBinding Light=#1A2B4A, Dark=#0A1628}"
+            <Grid BackgroundColor="#1A2B4A"
                   Padding="20,16">
-                <Label Text="Informations de l'article"
-                       TextColor="#F5A623"
-                       FontSize="13"
-                       FontAttributes="Bold"
-                       LetterSpacing="1" />
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Informations de l'article"
+                           TextColor="#F5A623"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           CharacterSpacing="1"
+                           VerticalOptions="Center" />
+                    <Button Grid.Column="1"
+                            x:Name="DeleteButton"
+                            Text="🗑️ Supprimer"
+                            Clicked="OnDeleteClicked"
+                            BackgroundColor="#EF4444"
+                            TextColor="White"
+                            FontSize="11"
+                            FontAttributes="Bold"
+                            CornerRadius="8"
+                            HeightRequest="32"
+                            Padding="10,0"
+                            IsVisible="False" />
+                </Grid>
             </Grid>
 
             <!-- Corps du formulaire -->
             <VerticalStackLayout Padding="20" Spacing="18">
+
+                <!-- SECTION IMAGE -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="PHOTO DE L'ARTICLE"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                           CharacterSpacing="1" />
+
+                    <!-- Carte de prévisualisation Image -->
+                    <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}"
+                            StrokeThickness="1.5"
+                            Padding="12">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+
+                        <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                            <!-- Aperçu Photo -->
+                            <Border HeightRequest="140"
+                                    WidthRequest="140"
+                                    BackgroundColor="{AppThemeBinding Light=#F8FAFC, Dark=#0D1A30}"
+                                    StrokeThickness="1"
+                                    Stroke="#CBD5E1"
+                                    HorizontalOptions="Center">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12" />
+                                </Border.StrokeShape>
+                                <Grid>
+                                    <VerticalStackLayout x:Name="ImagePlaceholderContainer"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="Center"
+                                                         Spacing="4">
+                                        <Label Text="📷" FontSize="36" HorizontalOptions="Center" />
+                                        <Label Text="Aucune photo" FontSize="11" TextColor="#94A3B8" HorizontalOptions="Center" />
+                                    </VerticalStackLayout>
+                                    <Image x:Name="ArticleImagePreview"
+                                           Aspect="AspectFit"
+                                           IsVisible="False" />
+                                </Grid>
+                            </Border>
+
+                            <!-- Boutons d'action Image -->
+                            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                <Button Text="📁 Galerie"
+                                        Clicked="OnPickPhotoClicked"
+                                        BackgroundColor="{AppThemeBinding Light=#EFF6FF, Dark=#1E293B}"
+                                        TextColor="#3B82F6"
+                                        FontSize="12"
+                                        FontAttributes="Bold"
+                                        CornerRadius="8"
+                                        HeightRequest="36"
+                                        Padding="14,0" />
+
+                                <Button Text="📸 Caméra"
+                                        Clicked="OnTakePhotoClicked"
+                                        BackgroundColor="{AppThemeBinding Light=#EFF6FF, Dark=#1E293B}"
+                                        TextColor="#3B82F6"
+                                        FontSize="12"
+                                        FontAttributes="Bold"
+                                        CornerRadius="8"
+                                        HeightRequest="36"
+                                        Padding="14,0" />
+
+                                <Button x:Name="RemovePhotoButton"
+                                        Text="✕ Retirer"
+                                        Clicked="OnRemovePhotoClicked"
+                                        BackgroundColor="#FEE2E2"
+                                        TextColor="#EF4444"
+                                        FontSize="12"
+                                        FontAttributes="Bold"
+                                        CornerRadius="8"
+                                        HeightRequest="36"
+                                        Padding="10,0"
+                                        IsVisible="False" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
 
                 <!-- Référence -->
                 <VerticalStackLayout Spacing="6">
@@ -27,7 +123,7 @@
                            FontSize="11"
                            FontAttributes="Bold"
                            TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#9AAABB}"
-                           LetterSpacing="1" />
+                           CharacterSpacing="1" />
                     <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
                             Padding="14,0"
                             StrokeThickness="1.5"
@@ -50,7 +146,7 @@
                            FontSize="11"
                            FontAttributes="Bold"
                            TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#9AAABB}"
-                           LetterSpacing="1" />
+                           CharacterSpacing="1" />
                     <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
                             Padding="14,0"
                             StrokeThickness="1.5"
@@ -73,7 +169,7 @@
                            FontSize="11"
                            FontAttributes="Bold"
                            TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#9AAABB}"
-                           LetterSpacing="1" />
+                           CharacterSpacing="1" />
                     <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
                             Padding="14,8"
                             StrokeThickness="1.5"
@@ -82,8 +178,8 @@
                             <RoundRectangle CornerRadius="10" />
                         </Border.StrokeShape>
                         <Editor x:Name="DescriptionEditor"
-                                HeightRequest="90"
-                                Placeholder="Description (optionnel)"
+                                HeightRequest="80"
+                                Placeholder="Description détaillée (optionnel)"
                                 PlaceholderColor="{AppThemeBinding Light=#C8D0DC, Dark=#3D5068}"
                                 TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
                                 BackgroundColor="Transparent" />
@@ -96,7 +192,7 @@
                            FontSize="11"
                            FontAttributes="Bold"
                            TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#9AAABB}"
-                           LetterSpacing="1" />
+                           CharacterSpacing="1" />
                     <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
                             Padding="14,0"
                             StrokeThickness="1.5"
@@ -105,7 +201,7 @@
                             <RoundRectangle CornerRadius="10" />
                         </Border.StrokeShape>
                         <Entry x:Name="CodeBarreEntry"
-                               Placeholder="Optionnel"
+                               Placeholder="Ex: 376000000001"
                                PlaceholderColor="{AppThemeBinding Light=#C8D0DC, Dark=#3D5068}"
                                TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
                                BackgroundColor="Transparent"
@@ -119,7 +215,7 @@
                            FontSize="11"
                            FontAttributes="Bold"
                            TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#9AAABB}"
-                           LetterSpacing="1" />
+                           CharacterSpacing="1" />
                     <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
                             Padding="14,0"
                             StrokeThickness="1.5"
@@ -139,16 +235,16 @@
 
                 <!-- Message d'erreur -->
                 <Border x:Name="ErrorContainer"
-                        BackgroundColor="#FFF0F0"
+                        BackgroundColor="#FEE2E2"
                         Padding="14,10"
                         StrokeThickness="1"
-                        Stroke="#E74C3C"
+                        Stroke="#EF4444"
                         IsVisible="False">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="8" />
+                        <RoundRectangle CornerRadius="10" />
                     </Border.StrokeShape>
                     <Label x:Name="ErrorLabel"
-                           TextColor="#E74C3C"
+                           TextColor="#B91C1C"
                            FontSize="13"
                            IsVisible="False" />
                 </Border>
@@ -162,8 +258,8 @@
                         FontSize="15"
                         FontAttributes="Bold"
                         CornerRadius="12"
-                        HeightRequest="54"
-                        Margin="0,8,0,0" />
+                        HeightRequest="52"
+                        Margin="0,6,0,0" />
 
                 <ActivityIndicator x:Name="SavingIndicator"
                                    IsRunning="False"
@@ -174,4 +270,4 @@
             </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage>
+</ContentPage>
