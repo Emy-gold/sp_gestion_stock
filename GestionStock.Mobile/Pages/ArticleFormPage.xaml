@@ -2,31 +2,176 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestionStock.Mobile.Pages.ArticleFormPage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#0D1A30}">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+        <VerticalStackLayout Spacing="0">
 
-            <Label Text="Référence" FontAttributes="Bold" />
-            <Entry x:Name="ReferenceEntry" Placeholder="Ex: ART-001" />
+            <!-- En-tête coloré -->
+            <Grid BackgroundColor="{AppThemeBinding Light=#1A2B4A, Dark=#0A1628}"
+                  Padding="20,16">
+                <Label Text="Informations de l'article"
+                       TextColor="#F5A623"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       LetterSpacing="1" />
+            </Grid>
 
-            <Label Text="Désignation" FontAttributes="Bold" />
-            <Entry x:Name="DesignationEntry" Placeholder="Nom de l'article" />
+            <!-- Corps du formulaire -->
+            <VerticalStackLayout Padding="20" Spacing="18">
 
-            <Label Text="Description" FontAttributes="Bold" />
-            <Editor x:Name="DescriptionEditor" HeightRequest="80" Placeholder="Description (optionnel)" />
+                <!-- Référence -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="RÉFÉRENCE *"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#9AAABB}"
+                           LetterSpacing="1" />
+                    <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                            Padding="14,0"
+                            StrokeThickness="1.5"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Entry x:Name="ReferenceEntry"
+                               Placeholder="Ex: ART-001"
+                               PlaceholderColor="{AppThemeBinding Light=#C8D0DC, Dark=#3D5068}"
+                               TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                               BackgroundColor="Transparent"
+                               HeightRequest="48" />
+                    </Border>
+                </VerticalStackLayout>
 
-            <Label Text="Code-barres" FontAttributes="Bold" />
-            <Entry x:Name="CodeBarreEntry" Placeholder="Optionnel" />
+                <!-- Désignation -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="DÉSIGNATION *"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#9AAABB}"
+                           LetterSpacing="1" />
+                    <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                            Padding="14,0"
+                            StrokeThickness="1.5"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Entry x:Name="DesignationEntry"
+                               Placeholder="Nom de l'article"
+                               PlaceholderColor="{AppThemeBinding Light=#C8D0DC, Dark=#3D5068}"
+                               TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                               BackgroundColor="Transparent"
+                               HeightRequest="48" />
+                    </Border>
+                </VerticalStackLayout>
 
-            <Label Text="Catégorie" FontAttributes="Bold" />
-            <Picker x:Name="CategoryPicker" Title="Sélectionner une catégorie" ItemDisplayBinding="{Binding Nom}" />
+                <!-- Description -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="DESCRIPTION"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#9AAABB}"
+                           LetterSpacing="1" />
+                    <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                            Padding="14,8"
+                            StrokeThickness="1.5"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Editor x:Name="DescriptionEditor"
+                                HeightRequest="90"
+                                Placeholder="Description (optionnel)"
+                                PlaceholderColor="{AppThemeBinding Light=#C8D0DC, Dark=#3D5068}"
+                                TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                                BackgroundColor="Transparent" />
+                    </Border>
+                </VerticalStackLayout>
 
-            <Label x:Name="ErrorLabel" TextColor="Red" IsVisible="False" />
+                <!-- Code-barres -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="CODE-BARRES"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#9AAABB}"
+                           LetterSpacing="1" />
+                    <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                            Padding="14,0"
+                            StrokeThickness="1.5"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Entry x:Name="CodeBarreEntry"
+                               Placeholder="Optionnel"
+                               PlaceholderColor="{AppThemeBinding Light=#C8D0DC, Dark=#3D5068}"
+                               TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                               BackgroundColor="Transparent"
+                               HeightRequest="48" />
+                    </Border>
+                </VerticalStackLayout>
 
-            <Button x:Name="SaveButton" Text="Enregistrer" Clicked="OnSaveClicked" Margin="0,10,0,0" />
-            <ActivityIndicator x:Name="SavingIndicator" IsRunning="False" IsVisible="False" />
+                <!-- Catégorie -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="CATÉGORIE *"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#9AAABB}"
+                           LetterSpacing="1" />
+                    <Border BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                            Padding="14,0"
+                            StrokeThickness="1.5"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Picker x:Name="CategoryPicker"
+                                Title="Sélectionner une catégorie"
+                                TitleColor="{AppThemeBinding Light=#C8D0DC, Dark=#3D5068}"
+                                TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                                BackgroundColor="Transparent"
+                                ItemDisplayBinding="{Binding Nom}"
+                                HeightRequest="48" />
+                    </Border>
+                </VerticalStackLayout>
 
+                <!-- Message d'erreur -->
+                <Border x:Name="ErrorContainer"
+                        BackgroundColor="#FFF0F0"
+                        Padding="14,10"
+                        StrokeThickness="1"
+                        Stroke="#E74C3C"
+                        IsVisible="False">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+                    <Label x:Name="ErrorLabel"
+                           TextColor="#E74C3C"
+                           FontSize="13"
+                           IsVisible="False" />
+                </Border>
+
+                <!-- Bouton Enregistrer -->
+                <Button x:Name="SaveButton"
+                        Text="💾  Enregistrer l'article"
+                        Clicked="OnSaveClicked"
+                        BackgroundColor="#F5A623"
+                        TextColor="#1A2B4A"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        CornerRadius="12"
+                        HeightRequest="54"
+                        Margin="0,8,0,0" />
+
+                <ActivityIndicator x:Name="SavingIndicator"
+                                   IsRunning="False"
+                                   IsVisible="False"
+                                   Color="#F5A623"
+                                   HeightRequest="30" />
+
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage>
+</ContentPage>

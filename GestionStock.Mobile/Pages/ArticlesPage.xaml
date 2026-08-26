@@ -2,36 +2,165 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestionStock.Mobile.Pages.ArticlesPage"
-             Title="Articles">
+             Title="Articles"
+             BackgroundColor="{AppThemeBinding Light=#F5F7FA, Dark=#0D1A30}">
 
-    <Grid RowDefinitions="Auto,*" Padding="10">
+    <Grid RowDefinitions="Auto,*">
 
-        <!-- Barre d'action -->
-        <HorizontalStackLayout Grid.Row="0" Spacing="10" Margin="0,0,0,10">
-            <Button Text="Rafraîchir" Clicked="OnRefreshClicked" />
-            <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False" />
-        </HorizontalStackLayout>
+        <!-- En-tête avec fond dégradé et boutons d'action -->
+        <Grid Grid.Row="0" BackgroundColor="{AppThemeBinding Light=#1A2B4A, Dark=#0A1628}"
+              Padding="16,12,16,16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Titre + logo de la section -->
+            <HorizontalStackLayout Grid.Row="0" Spacing="10" Margin="0,0,0,12">
+                <Image Source="standard_profil_logo.png"
+                       HeightRequest="28" WidthRequest="28"
+                       Aspect="AspectFit" />
+                <Label Text="Gestion des Articles"
+                       TextColor="White"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center" />
+                <ActivityIndicator x:Name="LoadingIndicator"
+                                   IsRunning="False"
+                                   IsVisible="False"
+                                   Color="#F5A623"
+                                   VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <!-- Boutons d'action -->
+            <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                <Button Grid.Column="0"
+                        Text="↻  Rafraîchir"
+                        Clicked="OnRefreshClicked"
+                        BackgroundColor="#2E4270"
+                        TextColor="White"
+                        FontSize="13"
+                        CornerRadius="20"
+                        Padding="16,8"
+                        HeightRequest="38" />
+                <Button Grid.Column="1"
+                        Text="＋  Ajouter"
+                        Clicked="OnAddClicked"
+                        BackgroundColor="#F5A623"
+                        TextColor="#1A2B4A"
+                        FontSize="13"
+                        FontAttributes="Bold"
+                        CornerRadius="20"
+                        Padding="16,8"
+                        HeightRequest="38" />
+            </Grid>
+        </Grid>
 
         <!-- Liste des articles -->
-        <RefreshView Grid.Row="1" x:Name="RefreshViewControl" Refreshing="OnRefreshing">
-            <CollectionView x:Name="ArticlesCollectionView">
+        <RefreshView Grid.Row="1"
+                     x:Name="RefreshViewControl"
+                     Refreshing="OnRefreshing"
+                     RefreshColor="#F5A623">
+            <CollectionView x:Name="ArticlesCollectionView"
+                            Margin="0,8,0,0">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border Stroke="LightGray" StrokeThickness="1" Margin="0,0,0,8" Padding="12">
-                            <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                                <Label Grid.Row="0" Text="{Binding Designation}" FontAttributes="Bold" FontSize="16" />
-                                <Label Grid.Row="1" Text="{Binding Reference}" FontSize="13" TextColor="Gray" />
-                                <HorizontalStackLayout Grid.Row="2" Spacing="15">
-                                    <Label Text="{Binding StockActuel, StringFormat='Stock: {0}'}" FontSize="13" />
-                                    <Label Text="{Binding CategoryArticleNom}" FontSize="13" TextColor="DarkBlue" />
-                                </HorizontalStackLayout>
+                        <Border Margin="12,4,12,4"
+                                Padding="0"
+                                StrokeThickness="0"
+                                BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}">
+                            <Border.Shadow>
+                                <Shadow Brush="{AppThemeBinding Light=#C8D0DC, Dark=#000000}"
+                                        Offset="0,2"
+                                        Radius="8"
+                                        Opacity="0.15" />
+                            </Border.Shadow>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnArticleTapped" />
+                            </Border.GestureRecognizers>
+
+                            <Grid ColumnDefinitions="6,*" ColumnSpacing="0">
+                                <!-- Bande latérale colorée -->
+                                <BoxView Grid.Column="0"
+                                         BackgroundColor="#F5A623"
+                                         CornerRadius="12,0,0,12" />
+
+                                <!-- Contenu de la carte -->
+                                <Grid Grid.Column="1"
+                                      Padding="14,12"
+                                      RowDefinitions="Auto,Auto,Auto"
+                                      RowSpacing="5">
+
+                                    <!-- Désignation -->
+                                    <Label Grid.Row="0"
+                                           Text="{Binding Designation}"
+                                           FontAttributes="Bold"
+                                           FontSize="15"
+                                           TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                                           LineBreakMode="TailTruncation" />
+
+                                    <!-- Référence -->
+                                    <HorizontalStackLayout Grid.Row="1" Spacing="8">
+                                        <Label Text="{Binding Reference}"
+                                               FontSize="12"
+                                               TextColor="{AppThemeBinding Light=#6B7F96, Dark=#9AAABB}" />
+                                    </HorizontalStackLayout>
+
+                                    <!-- Stock + Catégorie badges -->
+                                    <HorizontalStackLayout Grid.Row="2" Spacing="8">
+                                        <!-- Badge stock -->
+                                        <Border BackgroundColor="#E8EEF8"
+                                                Padding="8,3"
+                                                StrokeThickness="0">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="10" />
+                                            </Border.StrokeShape>
+                                            <Label Text="{Binding StockActuel, StringFormat='📦 {0}'}"
+                                                   FontSize="12"
+                                                   TextColor="#1A2B4A"
+                                                   FontAttributes="Bold" />
+                                        </Border>
+
+                                        <!-- Badge catégorie -->
+                                        <Border BackgroundColor="#1A2B4A"
+                                                Padding="8,3"
+                                                StrokeThickness="0">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="10" />
+                                            </Border.StrokeShape>
+                                            <Label Text="{Binding CategoryArticleNom}"
+                                                   FontSize="12"
+                                                   TextColor="White" />
+                                        </Border>
+                                    </HorizontalStackLayout>
+                                </Grid>
                             </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
                 <CollectionView.EmptyView>
-                    <Label Text="Aucun article trouvé." HorizontalOptions="Center" Margin="20" />
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Margin="40"
+                                         Spacing="12">
+                        <Label Text="📦"
+                               FontSize="48"
+                               HorizontalOptions="Center" />
+                        <Label Text="Aucun article trouvé"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                               HorizontalOptions="Center" />
+                        <Label Text="Appuyez sur « Ajouter » pour créer votre premier article."
+                               FontSize="13"
+                               TextColor="{AppThemeBinding Light=#6B7F96, Dark=#9AAABB}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
                 </CollectionView.EmptyView>
             </CollectionView>
         </RefreshView>

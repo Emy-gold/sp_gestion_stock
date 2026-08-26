@@ -4,11 +4,30 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:GestionStock.Mobile.Pages"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Disabled"
+    Shell.BackgroundColor="#1A2B4A"
+    Shell.ForegroundColor="White"
+    Shell.TitleColor="White">
+
+    <Shell.TitleView>
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" Padding="0,4,0,4">
+            <Image Grid.Column="0"
+                   Source="standard_profil_logo.png"
+                   HeightRequest="32"
+                   WidthRequest="32"
+                   Aspect="AspectFit" />
+            <Label Grid.Column="1"
+                   Text="GestionStock"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   FontSize="18"
+                   VerticalOptions="Center" />
+        </Grid>
+    </Shell.TitleView>
 
     <ShellContent
         Title="Articles"
         ContentTemplate="{DataTemplate pages:ArticlesPage}"
         Route="ArticlesPage" />
 
-</Shell>
+</Shell>

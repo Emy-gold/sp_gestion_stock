@@ -50,4 +50,17 @@ public partial class ArticlesPage : ContentPage
     {
         await LoadArticlesAsync();
     }
+
+    private async void OnAddClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(ArticleFormPage));
+    }
+
+    private async void OnArticleTapped(object sender, EventArgs e)
+    {
+        if (sender is Border { BindingContext: ArticleDto article })
+        {
+            await Shell.Current.GoToAsync($"{nameof(ArticleFormPage)}?articleId={article.Id}");
+        }
+    }
 }

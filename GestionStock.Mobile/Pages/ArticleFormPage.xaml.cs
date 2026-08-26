@@ -75,6 +75,7 @@ public partial class ArticleFormPage : ContentPage
     private async void OnSaveClicked(object sender, EventArgs e)
     {
         ErrorLabel.IsVisible = false;
+        ErrorContainer.IsVisible = false;
 
         if (string.IsNullOrWhiteSpace(ReferenceEntry.Text) ||
             string.IsNullOrWhiteSpace(DesignationEntry.Text) ||
@@ -82,6 +83,7 @@ public partial class ArticleFormPage : ContentPage
         {
             ErrorLabel.Text = "Référence, désignation et catégorie sont obligatoires.";
             ErrorLabel.IsVisible = true;
+            ErrorContainer.IsVisible = true;
             return;
         }
 
@@ -127,12 +129,14 @@ public partial class ArticleFormPage : ContentPage
             {
                 ErrorLabel.Text = "Échec de l'enregistrement. Vérifie les données saisies.";
                 ErrorLabel.IsVisible = true;
+                ErrorContainer.IsVisible = true;
             }
         }
         catch (Exception ex)
         {
             ErrorLabel.Text = $"Erreur : {ex.Message}";
             ErrorLabel.IsVisible = true;
+            ErrorContainer.IsVisible = true;
         }
         finally
         {
