@@ -121,11 +121,11 @@
         <ShellContent ContentTemplate="{DataTemplate pages:CategoriesPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Mouvements de Stock" Icon="dotnet_bot.png" Route="OperationsPage">
+    <FlyoutItem Title="Gestion Opérations" Icon="dotnet_bot.png" Route="OperationsPage">
         <ShellContent ContentTemplate="{DataTemplate pages:OperationsPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Catégories d'Opérations" Icon="dotnet_bot.png" Route="CategoryOperationsPage">
+    <FlyoutItem Title="Gestion Catégories d'Opérations" Icon="dotnet_bot.png" Route="CategoryOperationsPage">
         <ShellContent ContentTemplate="{DataTemplate pages:CategoryOperationsPage}" />
     </FlyoutItem>
 
