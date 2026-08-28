@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionStock.Mobile.Pages.CategoryOperationsPage"
+             Title="Catégories d'Opérations"
+             BackgroundColor="#F5F7FA">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Barre de recherche -->
+        <Border Grid.Row="0"
+                Margin="16,12,16,8"
+                Padding="12,0"
+                BackgroundColor="White"
+                Stroke="#E2E8F0"
+                StrokeThickness="1.5">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12" />
+            </Border.StrokeShape>
+            <Grid ColumnDefinitions="Auto,*">
+                <Label Grid.Column="0" Text="🔍" FontSize="14" VerticalOptions="Center" Margin="0,0,8,0" />
+                <SearchBar Grid.Column="1"
+                           x:Name="SearchBar"
+                           Placeholder="Rechercher une catégorie d'opération..."
+                           TextChanged="OnSearchTextChanged"
+                           BackgroundColor="Transparent"
+                           HeightRequest="44" />
+            </Grid>
+        </Border>
+
+        <!-- Liste des catégories d'opération -->
+        <RefreshView Grid.Row="1"
+                     x:Name="RefreshView"
+                     Refreshing="OnRefreshing"
+                     RefreshColor="#2563EB">
+            <CollectionView x:Name="CollectionView"
+                            Margin="16,0,16,16">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,6,0,6"
+                                Padding="16"
+                                BackgroundColor="White"
+                                StrokeThickness="1"
+                                Stroke="#E2E8F0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCategoryTapped" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                <Border Grid.Column="0"
+                                        HeightRequest="44"
+                                        WidthRequest="44"
+                                        BackgroundColor="#EFF6FF"
+                                        StrokeThickness="0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+                                    <Label Text="⚙️" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="3">
+                                    <Label Text="{Binding Nom}"
+                                           FontAttributes="Bold"
+                                           FontSize="15"
+                                           TextColor="#1E293B" />
+                                    <Label Text="{Binding Description, TargetNullValue='Aucune description'}"
+                                           FontSize="12"
+                                           TextColor="#64748B"
+                                           LineBreakMode="TailTruncation" />
+                                </VerticalStackLayout>
+
+                                <Border Grid.Column="2"
+                                        BackgroundColor="#F1F5F9"
+                                        Padding="8,4"
+                                        StrokeThickness="0"
+                                        VerticalOptions="Center">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8" />
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding Id, StringFormat='ID #{0}'}"
+                                           FontSize="11"
+                                           TextColor="#64748B" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Margin="40"
+                                         Spacing="10">
+                        <Label Text="⚙️" FontSize="44" HorizontalOptions="Center" />
+                        <Label Text="Aucune catégorie d'opération trouvée"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#1E293B"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Floating Action Button (FAB) -->
+        <Button Grid.Row="1"
+                Text="＋"
+                Clicked="OnAddClicked"
+                BackgroundColor="#2563EB"
+                TextColor="White"
+                FontSize="28"
+                FontAttributes="Bold"
+                CornerRadius="30"
+                HeightRequest="60"
+                WidthRequest="60"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="20"
+                Shadow="{Shadow Brush='#2563EB', Offset='0,4', Opacity=0.3, Radius=10}" />
+    </Grid>
+</ContentPage>

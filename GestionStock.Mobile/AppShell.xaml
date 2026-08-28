@@ -125,6 +125,10 @@
         <ShellContent ContentTemplate="{DataTemplate pages:OperationsPage}" />
     </FlyoutItem>
 
+    <FlyoutItem Title="Catégories d'Opérations" Icon="dotnet_bot.png" Route="CategoryOperationsPage">
+        <ShellContent ContentTemplate="{DataTemplate pages:CategoryOperationsPage}" />
+    </FlyoutItem>
+
     <FlyoutItem Title="Fournisseurs" Icon="dotnet_bot.png" Route="FournisseursPage">
         <ShellContent ContentTemplate="{DataTemplate pages:FournisseursPage}" />
     </FlyoutItem>

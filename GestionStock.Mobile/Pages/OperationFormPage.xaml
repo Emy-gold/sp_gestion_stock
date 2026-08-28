@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionStock.Mobile.Pages.OperationFormPage"
+             Title="Nouveau mouvement de stock"
+             BackgroundColor="#F5F7FA">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+
+            <!-- En-tête avec dégradé bleu -->
+            <Grid Padding="20,16">
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#1E3A5F" Offset="0.0" />
+                        <GradientStop Color="#2563EB" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Grid.Background>
+                <Label Text="Saisie d'un mouvement de stock"
+                       TextColor="#BFDBFE"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       CharacterSpacing="1"
+                       VerticalOptions="Center" />
+            </Grid>
+
+            <!-- Corps du formulaire -->
+            <VerticalStackLayout Padding="20" Spacing="18">
+
+                <!-- Numéro Opération -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="NUMÉRO DE L'OPÉRATION *"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#374151"
+                           CharacterSpacing="1" />
+                    <Border BackgroundColor="#E2E8F0"
+                            Padding="14,0"
+                            StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Entry x:Name="NumeroEntry"
+                               TextColor="#64748B"
+                               IsReadOnly="True"
+                               HeightRequest="48" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Date de l'opération -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="DATE DU MOUVEMENT *"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#374151"
+                           CharacterSpacing="1" />
+                    <Border BackgroundColor="White"
+                            Padding="14,0"
+                            StrokeThickness="1.5"
+                            Stroke="#E2E8F0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <DatePicker x:Name="DatePicker"
+                                    TextColor="#1E293B"
+                                    BackgroundColor="Transparent"
+                                    HeightRequest="48" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Catégorie d'opération -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="TYPE DE MOUVEMENT *"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#374151"
+                           CharacterSpacing="1" />
+                    <Border BackgroundColor="White"
+                            Padding="14,0"
+                            StrokeThickness="1.5"
+                            Stroke="#E2E8F0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Picker x:Name="CategoryPicker"
+                                Title="Sélectionner un type de mouvement"
+                                TitleColor="#94A3B8"
+                                TextColor="#1E293B"
+                                BackgroundColor="Transparent"
+                                ItemDisplayBinding="{Binding Nom}"
+                                HeightRequest="48" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Fournisseur -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="FOURNISSEUR (Optionnel - Pour les réceptions)"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#374151"
+                           CharacterSpacing="1" />
+                    <Border BackgroundColor="White"
+                            Padding="14,0"
+                            StrokeThickness="1.5"
+                            Stroke="#E2E8F0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Picker x:Name="FournisseurPicker"
+                                Title="Sélectionner un fournisseur"
+                                TitleColor="#94A3B8"
+                                TextColor="#1E293B"
+                                BackgroundColor="Transparent"
+                                ItemDisplayBinding="{Binding Nom}"
+                                HeightRequest="48" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Observation -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="OBSERVATION / COMMENTAIRE"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#374151"
+                           CharacterSpacing="1" />
+                    <Border BackgroundColor="White"
+                            Padding="14,8"
+                            StrokeThickness="1.5"
+                            Stroke="#E2E8F0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Editor x:Name="ObservationEditor"
+                                HeightRequest="80"
+                                Placeholder="Remarques générales (optionnelles)"
+                                PlaceholderColor="#94A3B8"
+                                TextColor="#1E293B"
+                                BackgroundColor="Transparent" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- SECTION DÉTAILS DE L'OPÉRATION -->
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="DÉTAILS DES ARTICLES *"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#64748B"
+                           CharacterSpacing="1" />
+
+                    <!-- Formulaire d'ajout de ligne de détail -->
+                    <Border BackgroundColor="White"
+                            Padding="16"
+                            StrokeThickness="1.5"
+                            Stroke="#E2E8F0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Ajouter un article au mouvement"
+                                   FontSize="13"
+                                   FontAttributes="Bold"
+                                   TextColor="#1E3A5F" />
+
+                            <!-- Sélection Article -->
+                            <Picker x:Name="ArticlePicker"
+                                    Title="Choisir un article"
+                                    TitleColor="#94A3B8"
+                                    TextColor="#1E293B"
+                                    ItemDisplayBinding="{Binding Designation}"
+                                    HeightRequest="44" />
+
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                <!-- Quantité -->
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="QUANTITÉ *" FontSize="10" FontAttributes="Bold" TextColor="#374151" />
+                                    <Border BackgroundColor="#F8FAFC" Padding="10,0" StrokeThickness="1" Stroke="#E2E8F0">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="6" />
+                                        </Border.StrokeShape>
+                                        <Entry x:Name="QuantiteEntry"
+                                               Placeholder="0.00"
+                                               Keyboard="Numeric"
+                                               HeightRequest="40"
+                                               BackgroundColor="Transparent" />
+                                    </Border>
+                                </VerticalStackLayout>
+
+                                <!-- Emplacement -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label Text="EMPLACEMENT" FontSize="10" FontAttributes="Bold" TextColor="#374151" />
+                                    <Border BackgroundColor="#F8FAFC" Padding="10,0" StrokeThickness="1" Stroke="#E2E8F0">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="6" />
+                                        </Border.StrokeShape>
+                                        <Entry x:Name="EmplacementEntry"
+                                               Placeholder="Ex: A-12"
+                                               HeightRequest="40"
+                                               BackgroundColor="Transparent" />
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <!-- Remarque sur la ligne -->
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="REMARQUE SPÉCIFIQUE" FontSize="10" FontAttributes="Bold" TextColor="#374151" />
+                                <Border BackgroundColor="#F8FAFC" Padding="10,0" StrokeThickness="1" Stroke="#E2E8F0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="6" />
+                                    </Border.StrokeShape>
+                                    <Entry x:Name="LineRemarqueEntry"
+                                           Placeholder="Défaut, retour, etc. (optionnel)"
+                                           HeightRequest="40"
+                                           BackgroundColor="Transparent" />
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <Button Text="Ajouter la ligne"
+                                    Clicked="OnAddLineClicked"
+                                    BackgroundColor="#EFF6FF"
+                                    TextColor="#2563EB"
+                                    HeightRequest="40"
+                                    CornerRadius="8"
+                                    FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Liste des lignes ajoutées -->
+                    <VerticalStackLayout x:Name="DetailsStack"
+                                         BindableLayout.ItemsSource="{Binding DetailLines}"
+                                         Spacing="8"
+                                         Margin="0,4,0,0">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border Stroke="#E2E8F0" StrokeThickness="1" BackgroundColor="White" Padding="14,10">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+                                    <Grid ColumnDefinitions="*, Auto">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                            <Label Text="{Binding ArticleDesignation}" FontAttributes="Bold" FontSize="14" TextColor="#1E293B" />
+                                            <HorizontalStackLayout Spacing="16">
+                                                <Label Text="{Binding Quantite, StringFormat='Qté: {0}'}" FontSize="12" TextColor="#2563EB" FontAttributes="Bold" />
+                                                <Label Text="{Binding Emplacement, StringFormat='Loc: {0}', TargetNullValue='Loc: N/A'}" FontSize="12" TextColor="#64748B" />
+                                            </HorizontalStackLayout>
+                                            <Label Text="{Binding Remarque}" FontSize="11" TextColor="#94A3B8" />
+                                        </VerticalStackLayout>
+                                        <Button Grid.Column="1"
+                                                Text="✕"
+                                                Clicked="OnRemoveLineClicked"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="Transparent"
+                                                TextColor="#EF4444"
+                                                FontAttributes="Bold"
+                                                WidthRequest="36"
+                                                HeightRequest="36"
+                                                Padding="0" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Message d'erreur -->
+                <Border x:Name="ErrorContainer"
+                        BackgroundColor="#FEF2F2"
+                        Padding="14,10"
+                        StrokeThickness="1"
+                        Stroke="#FECACA"
+                        IsVisible="False">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+                    <Label x:Name="ErrorLabel"
+                           TextColor="#DC2626"
+                           FontSize="13"
+                           IsVisible="False" />
+                </Border>
+
+                <!-- Bouton Enregistrer -->
+                <Button x:Name="SaveButton"
+                        Text="💾  Enregistrer l'opération"
+                        Clicked="OnSaveClicked"
+                        TextColor="White"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        CornerRadius="12"
+                        HeightRequest="52"
+                        Margin="0,6,0,0">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#2563EB" Offset="0.0" />
+                            <GradientStop Color="#1D4ED8" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+
+                <ActivityIndicator x:Name="SavingIndicator"
+                                   IsRunning="False"
+                                   IsVisible="False"
+                                   Color="#2563EB"
+                                   HeightRequest="30" />
+
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

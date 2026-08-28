@@ -40,4 +40,9 @@ public partial class OperationsPage : ContentPage
     {
         await LoadOperationsAsync();
     }
+
+    private async void OnAddClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(OperationFormPage));
+    }
 }

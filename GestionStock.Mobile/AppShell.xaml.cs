@@ -20,6 +20,9 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(CategoryFormPage), typeof(CategoryFormPage));
         Routing.RegisterRoute(nameof(UserFormPage), typeof(UserFormPage));
         Routing.RegisterRoute(nameof(RoleFormPage), typeof(RoleFormPage));
+        Routing.RegisterRoute(nameof(OperationFormPage), typeof(OperationFormPage));
+        Routing.RegisterRoute(nameof(CategoryOperationsPage), typeof(CategoryOperationsPage));
+        Routing.RegisterRoute(nameof(CategoryOperationFormPage), typeof(CategoryOperationFormPage));
 
         UpdateFlyoutHeader();
     }

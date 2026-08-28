@@ -24,4 +24,30 @@ public class OperationApiService
             throw new Exception($"Erreur de chargement des opérations : {ex.Message}", ex);
         }
     }
+
+    public async Task<bool> CreateOperationAsync(OperationCreateDto dto)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("operations", dto);
+            return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new Exception($"Erreur lors de la création de l'opération : {ex.Message}", ex);
+        }
+    }
+
+    public async Task<bool> DeleteOperationAsync(int id)
+    {
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"operations/{id}");
+            return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new Exception($"Erreur lors de la suppression de l'opération : {ex.Message}", ex);
+        }
+    }
 }
