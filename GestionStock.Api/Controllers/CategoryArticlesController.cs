@@ -76,7 +76,7 @@ public class CategoryArticlesController : ControllerBase
             Nom = dto.Nom,
             Description = dto.Description,
             Image = dto.Image,
-            Attributes = dto.Attributes,
+            Attributes = dto.Attributes ?? new Dictionary<string, string>(),
             ParentId = dto.ParentId
         };
 
@@ -99,7 +99,7 @@ public class CategoryArticlesController : ControllerBase
         category.Nom = dto.Nom;
         category.Description = dto.Description;
         category.Image = dto.Image;
-        category.Attributes = dto.Attributes;
+        category.Attributes = dto.Attributes ?? new Dictionary<string, string>();
         category.ParentId = dto.ParentId;
 
         await _context.SaveChangesAsync();

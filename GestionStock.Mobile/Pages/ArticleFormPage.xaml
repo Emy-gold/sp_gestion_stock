@@ -237,6 +237,24 @@
                                 HeightRequest="48" />
                     </Border>
                 </VerticalStackLayout>
+ 
+                <!-- Dynamic Attributes -->
+                <VerticalStackLayout x:Name="DynamicAttributesContainer" Spacing="10" IsVisible="False">
+                    <Label Text="ATTRIBUTS DE LA CATÉGORIE"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#64748B"
+                           CharacterSpacing="1" />
+                    <Border BackgroundColor="White"
+                            Padding="16"
+                            StrokeThickness="1.5"
+                            Stroke="#E2E8F0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout x:Name="DynamicFieldsStack" Spacing="12" />
+                    </Border>
+                </VerticalStackLayout>
 
                 <!-- Message d'erreur -->
                 <Border x:Name="ErrorContainer"

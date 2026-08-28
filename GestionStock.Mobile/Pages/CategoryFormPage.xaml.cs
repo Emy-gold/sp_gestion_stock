@@ -11,6 +11,7 @@ public partial class CategoryFormPage : ContentPage
     private List<CategoryArticleDto> _categories = new();
     private CategoryArticleDto? _existingCategory;
     private string? _selectedImageBase64;
+    public System.Collections.ObjectModel.ObservableCollection<string> AttributeNames { get; set; } = new();
 
     public string? CategoryId { get; set; }
 
@@ -88,6 +89,15 @@ public partial class CategoryFormPage : ContentPage
                 var matchingCategory = _categories.FirstOrDefault(c => c.Id == _existingCategory.ParentId);
                 if (matchingCategory != null)
                     ParentCategoryPicker.SelectedItem = matchingCategory;
+            }
+
+            AttributeNames.Clear();
+            if (_existingCategory.Attributes != null)
+            {
+                foreach (var attrKey in _existingCategory.Attributes.Keys)
+                {
+                    AttributeNames.Add(attrKey);
+                }
             }
         }
         catch (Exception ex)
@@ -221,12 +231,19 @@ public partial class CategoryFormPage : ContentPage
             bool success;
             var selectedParent = ParentCategoryPicker.SelectedItem as CategoryArticleDto;
 
+            var attributesDict = new Dictionary<string, string>();
+            foreach (var attrName in AttributeNames)
+            {
+                attributesDict[attrName] = string.Empty;
+            }
+
             var dto = new CategoryArticleCreateDto
             {
                 Nom = nom,
                 Description = DescriptionEditor.Text?.Trim(),
                 Image = _selectedImageBase64,
-                ParentId = selectedParent?.Id
+                ParentId = selectedParent?.Id,
+                Attributes = attributesDict
             };
 
             if (_existingCategory is null)
@@ -260,6 +277,31 @@ public partial class CategoryFormPage : ContentPage
             SavingIndicator.IsVisible = false;
             SavingIndicator.IsRunning = false;
             SaveButton.IsEnabled = true;
+        }
+    }
+
+    private void OnAddAttributeClicked(object? sender, EventArgs e)
+    {
+        var attrName = NewAttributeEntry.Text?.Trim();
+        if (string.IsNullOrWhiteSpace(attrName))
+            return;
+
+        if (!AttributeNames.Contains(attrName))
+        {
+            AttributeNames.Add(attrName);
+            NewAttributeEntry.Text = string.Empty;
+        }
+        else
+        {
+            DisplayAlert("Info", "Cet attribut existe déjà.", "OK");
+        }
+    }
+
+    private void OnRemoveAttributeClicked(object? sender, EventArgs e)
+    {
+        if (sender is Button button && button.CommandParameter is string attrName)
+        {
+            AttributeNames.Remove(attrName);
         }
     }
 }

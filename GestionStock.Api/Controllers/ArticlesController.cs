@@ -34,7 +34,8 @@ public class ArticlesController : ControllerBase
 				StockActuel = a.StockActuel,
 				Actif = a.Actif,
 				CategoryArticleId = a.CategoryArticleId,
-				CategoryArticleNom = a.CategoryArticle.Nom
+				CategoryArticleNom = a.CategoryArticle.Nom,
+				AttributeValues = a.AttributeValues
 			})
 			.ToListAsync();
 
@@ -59,7 +60,8 @@ public class ArticlesController : ControllerBase
 				StockActuel = a.StockActuel,
 				Actif = a.Actif,
 				CategoryArticleId = a.CategoryArticleId,
-				CategoryArticleNom = a.CategoryArticle.Nom
+				CategoryArticleNom = a.CategoryArticle.Nom,
+				AttributeValues = a.AttributeValues
 			})
 			.FirstOrDefaultAsync();
 
@@ -90,7 +92,8 @@ public class ArticlesController : ControllerBase
 			CodeBarre = dto.CodeBarre,
 			CategoryArticleId = dto.CategoryArticleId,
 			StockActuel = 0,
-			Actif = true
+			Actif = true,
+			AttributeValues = dto.AttributeValues ?? new Dictionary<string, string>()
 		};
 
 		_context.Articles.Add(article);
@@ -107,7 +110,8 @@ public class ArticlesController : ControllerBase
 			StockActuel = article.StockActuel,
 			Actif = article.Actif,
 			CategoryArticleId = article.CategoryArticleId,
-			CategoryArticleNom = category.Nom
+			CategoryArticleNom = category.Nom,
+			AttributeValues = article.AttributeValues
 		};
 
 		return CreatedAtAction(nameof(GetArticle), new { id = article.Id }, articleDto);
@@ -136,6 +140,7 @@ public class ArticlesController : ControllerBase
 		article.CodeBarre = dto.CodeBarre;
 		article.Actif = dto.Actif;
 		article.CategoryArticleId = dto.CategoryArticleId;
+		article.AttributeValues = dto.AttributeValues ?? new Dictionary<string, string>();
 
 		await _context.SaveChangesAsync();
 		return NoContent();

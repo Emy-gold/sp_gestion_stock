@@ -12,4 +12,5 @@ public class ArticleDto
 	public bool Actif { get; set; }
 	public int CategoryArticleId { get; set; }
 	public string? CategoryArticleNom { get; set; }
+	public Dictionary<string, string> AttributeValues { get; set; } = new();
 }

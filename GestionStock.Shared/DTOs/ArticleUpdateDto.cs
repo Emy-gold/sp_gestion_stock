@@ -9,4 +9,5 @@ public class ArticleUpdateDto
     public string? CodeBarre { get; set; }
     public bool Actif { get; set; }
     public int CategoryArticleId { get; set; }
+    public Dictionary<string, string>? AttributeValues { get; set; }
 }

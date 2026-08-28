@@ -1,4 +1,4 @@
-﻿namespace GestionStock.Shared.Entities;
+namespace GestionStock.Shared.Entities;
 
 
 public class Article
@@ -11,6 +11,7 @@ public class Article
 	public string? CodeBarre { get; set; }
 	public decimal StockActuel { get; set; }
 	public bool Actif { get; set; } = true;
+	public Dictionary<string, string> AttributeValues { get; set; } = new();
 
 	public int CategoryArticleId { get ; set; }
 	public CategoryArticle CategoryArticle { get; set; } = null;

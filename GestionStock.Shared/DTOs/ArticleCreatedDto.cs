@@ -8,4 +8,5 @@ public class ArticleCreateDto
     public string? Image { get; set; }
     public string? CodeBarre { get; set; }
     public int CategoryArticleId { get; set; }
+    public Dictionary<string, string>? AttributeValues { get; set; }
 }

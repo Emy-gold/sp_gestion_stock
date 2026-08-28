@@ -32,6 +32,8 @@ public partial class ArticleFormPage : ContentPage
         _articleApiService = articleApiService;
         _categoryApiService = categoryApiService;
         BindingContext = this;
+
+        CategoryPicker.SelectedIndexChanged += OnCategoryChanged;
     }
 
     protected override async void OnAppearing()
@@ -212,6 +214,19 @@ public partial class ArticleFormPage : ContentPage
         SavingIndicator.IsRunning = true;
         SaveButton.IsEnabled = false;
 
+        var attributeValues = new Dictionary<string, string>();
+        foreach (var child in DynamicFieldsStack.Children)
+        {
+            if (child is VerticalStackLayout fieldStack)
+            {
+                var border = fieldStack.Children.OfType<Border>().FirstOrDefault();
+                if (border?.Content is Entry entry && !string.IsNullOrEmpty(entry.AutomationId))
+                {
+                    attributeValues[entry.AutomationId] = entry.Text?.Trim() ?? string.Empty;
+                }
+            }
+        }
+
         try
         {
             bool success;
@@ -225,7 +240,8 @@ public partial class ArticleFormPage : ContentPage
                     Description = DescriptionEditor.Text?.Trim(),
                     CodeBarre = CodeBarreEntry.Text?.Trim(),
                     Image = _selectedImageBase64,
-                    CategoryArticleId = selectedCategory.Id
+                    CategoryArticleId = selectedCategory.Id,
+                    AttributeValues = attributeValues
                 };
                 success = await _articleApiService.CreateArticleAsync(createDto);
             }
@@ -239,7 +255,8 @@ public partial class ArticleFormPage : ContentPage
                     CodeBarre = CodeBarreEntry.Text?.Trim(),
                     Image = _selectedImageBase64,
                     CategoryArticleId = selectedCategory.Id,
-                    Actif = true
+                    Actif = true,
+                    AttributeValues = attributeValues
                 };
                 success = await _articleApiService.UpdateArticleAsync(_existingArticle.Id, updateDto);
             }
@@ -266,6 +283,66 @@ public partial class ArticleFormPage : ContentPage
             SavingIndicator.IsVisible = false;
             SavingIndicator.IsRunning = false;
             SaveButton.IsEnabled = true;
+        }
+    }
+
+    private void OnCategoryChanged(object? sender, EventArgs e)
+    {
+        DynamicFieldsStack.Children.Clear();
+
+        if (CategoryPicker.SelectedItem is not CategoryArticleDto selectedCategory || 
+            selectedCategory.Attributes == null || 
+            selectedCategory.Attributes.Count == 0)
+        {
+            DynamicAttributesContainer.IsVisible = false;
+            return;
+        }
+
+        DynamicAttributesContainer.IsVisible = true;
+
+        foreach (var attrName in selectedCategory.Attributes.Keys)
+        {
+            var fieldStack = new VerticalStackLayout { Spacing = 6 };
+
+            var label = new Label
+            {
+                Text = attrName.ToUpper(),
+                FontSize = 11,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = Color.FromArgb("#374151"),
+                CharacterSpacing = 1
+            };
+
+            var border = new Border
+            {
+                BackgroundColor = Colors.White,
+                Padding = new Thickness(14, 0),
+                StrokeThickness = 1.5,
+                Stroke = Color.FromArgb("#E2E8F0"),
+                StrokeShape = new Microsoft.Maui.Controls.Shapes.RoundRectangle { CornerRadius = 10 }
+            };
+
+            var entry = new Entry
+            {
+                Placeholder = $"Saisir {attrName.ToLower()}",
+                PlaceholderColor = Color.FromArgb("#94A3B8"),
+                TextColor = Color.FromArgb("#1E293B"),
+                BackgroundColor = Colors.Transparent,
+                HeightRequest = 48,
+                AutomationId = attrName
+            };
+
+            if (_existingArticle?.AttributeValues != null && 
+                _existingArticle.AttributeValues.TryGetValue(attrName, out var existingValue))
+            {
+                entry.Text = existingValue;
+            }
+
+            border.Content = entry;
+            fieldStack.Children.Add(label);
+            fieldStack.Children.Add(border);
+
+            DynamicFieldsStack.Children.Add(fieldStack);
         }
     }
 }
