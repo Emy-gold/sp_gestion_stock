@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionStock.Mobile.Pages.UsersPage"
+             Title="Gestion Utilisateurs"
+             BackgroundColor="{AppThemeBinding Light=#F1F5F9, Dark=#0B132B}">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+
+        <!-- En-tête stats -->
+        <Border Grid.Row="0"
+                Margin="16,12,16,8"
+                Padding="16,12"
+                BackgroundColor="#1A2B4A"
+                StrokeThickness="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="14" />
+            </Border.StrokeShape>
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                    <Label Text="Gestion des Utilisateurs"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="15" />
+                    <Label Text="Comptes d'accès à l'application"
+                           TextColor="#CBD5E1"
+                           FontSize="12" />
+                </VerticalStackLayout>
+                <Label Grid.Column="1"
+                       x:Name="UsersCountLabel"
+                       Text="0 utilisateurs"
+                       TextColor="#F5A623"
+                       FontAttributes="Bold"
+                       FontSize="13"
+                       VerticalOptions="Center" />
+            </Grid>
+        </Border>
+
+        <!-- Bouton Ajouter -->
+        <Button Grid.Row="1"
+                Text="＋ Ajouter un utilisateur"
+                Clicked="OnAddUserClicked"
+                BackgroundColor="#F5A623"
+                TextColor="#1A2B4A"
+                FontSize="13"
+                FontAttributes="Bold"
+                CornerRadius="12"
+                HeightRequest="44"
+                Margin="16,0,16,8" />
+
+        <!-- Liste des utilisateurs -->
+        <RefreshView Grid.Row="2"
+                     x:Name="UsersRefreshView"
+                     Refreshing="OnRefreshing"
+                     RefreshColor="#F5A623">
+            <CollectionView x:Name="UsersCollectionView"
+                            Margin="16,0,16,16">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,6,0,6"
+                                Padding="16"
+                                BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                                StrokeThickness="1"
+                                Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+
+                                <!-- Avatar initiales -->
+                                <Border Grid.Column="0"
+                                        HeightRequest="46"
+                                        WidthRequest="46"
+                                        BackgroundColor="#2E4270"
+                                        StrokeThickness="0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="23" />
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding Initiales}"
+                                           TextColor="White"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+
+                                <!-- Infos utilisateur -->
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="3">
+                                    <Label Text="{Binding NomComplet}"
+                                           FontAttributes="Bold"
+                                           FontSize="14"
+                                           TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                                           LineBreakMode="TailTruncation" />
+                                    <Label Text="{Binding Email}"
+                                           FontSize="12"
+                                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                           LineBreakMode="TailTruncation" />
+                                    <Label Text="{Binding Telephone, TargetNullValue='Pas de téléphone'}"
+                                           FontSize="11"
+                                           TextColor="#F5A623" />
+                                </VerticalStackLayout>
+
+                                <!-- Actions -->
+                                <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="6">
+                                    <Button Text="✏️"
+                                            Clicked="OnEditUserClicked"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#EFF6FF"
+                                            TextColor="#1A2B4A"
+                                            FontSize="14"
+                                            CornerRadius="8"
+                                            HeightRequest="34"
+                                            WidthRequest="40"
+                                            Padding="0" />
+                                    <Button Text="🗑️"
+                                            Clicked="OnDeleteUserClicked"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#FEF2F2"
+                                            TextColor="#E74C3C"
+                                            FontSize="14"
+                                            CornerRadius="8"
+                                            HeightRequest="34"
+                                            WidthRequest="40"
+                                            Padding="0" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Margin="40"
+                                         Spacing="10">
+                        <Label Text="👤" FontSize="44" HorizontalOptions="Center" />
+                        <Label Text="Aucun utilisateur enregistré"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                               HorizontalOptions="Center" />
+                        <Label Text="Appuyez sur '＋ Ajouter' pour créer un compte"
+                               FontSize="13"
+                               TextColor="{AppThemeBinding Light=#94A3B8, Dark=#64748B}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

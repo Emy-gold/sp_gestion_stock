@@ -8,18 +8,21 @@ public partial class DashboardPage : ContentPage
     private readonly ArticleApiService _articleApiService;
     private readonly CategoryArticleApiService _categoryApiService;
     private readonly FournisseurApiService _fournisseurApiService;
+    private readonly OperationApiService _operationApiService;
     private readonly AuthService _authService;
 
     public DashboardPage(
         ArticleApiService articleApiService,
         CategoryArticleApiService categoryApiService,
         FournisseurApiService fournisseurApiService,
+        OperationApiService operationApiService,
         AuthService authService)
     {
         InitializeComponent();
         _articleApiService = articleApiService;
         _categoryApiService = categoryApiService;
         _fournisseurApiService = fournisseurApiService;
+        _operationApiService = operationApiService;
         _authService = authService;
     }
 
@@ -45,21 +48,25 @@ public partial class DashboardPage : ContentPage
             var articlesTask = _articleApiService.GetArticlesAsync();
             var categoriesTask = _categoryApiService.GetCategoriesAsync();
             var fournisseursTask = _fournisseurApiService.GetFournisseursAsync();
+            var operationsTask = _operationApiService.GetOperationsAsync();
 
-            await Task.WhenAll(articlesTask, categoriesTask, fournisseursTask);
+            await Task.WhenAll(articlesTask, categoriesTask, fournisseursTask, operationsTask);
 
             var articles = await articlesTask;
             var categories = await categoriesTask;
             var fournisseurs = await fournisseursTask;
+            var operations = await operationsTask;
 
             TotalArticlesLabel.Text = articles.Count.ToString();
             TotalCategoriesLabel.Text = categories.Count.ToString();
             TotalFournisseursLabel.Text = fournisseurs.Count.ToString();
-
-            var lowStockCount = articles.Count(a => a.StockActuel <= 5);
-            StockAlertsLabel.Text = lowStockCount.ToString();
+            TotalOperationsLabel.Text = operations.Count.ToString();
 
             RecentArticlesCollectionView.ItemsSource = articles.Take(5).ToList();
+            RecentOperationsCollectionView.ItemsSource = operations
+                .OrderByDescending(o => o.DateOperation)
+                .Take(5)
+                .ToList();
         }
         catch (Exception ex)
         {
@@ -85,5 +92,10 @@ public partial class DashboardPage : ContentPage
     private async void OnViewArticlesClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("//ArticlesPage");
+    }
+
+    private async void OnViewOperationsClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("//OperationsPage");
     }
 }

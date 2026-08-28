@@ -115,4 +115,8 @@
         <ShellContent ContentTemplate="{DataTemplate pages:FournisseursPage}" />
     </FlyoutItem>
 
+    <FlyoutItem Title="Gestion Utilisateurs" Icon="dotnet_bot.png" Route="UsersPage">
+        <ShellContent ContentTemplate="{DataTemplate pages:UsersPage}" />
+    </FlyoutItem>
+
 </Shell>

@@ -33,6 +33,7 @@ namespace GestionStock.Mobile
             builder.Services.AddSingleton<ArticleApiService>();
             builder.Services.AddSingleton<FournisseurApiService>();
             builder.Services.AddSingleton<OperationApiService>();
+            builder.Services.AddSingleton<UserApiService>();
 
             // Pages
             builder.Services.AddTransient<LoginPage>();
@@ -43,6 +44,7 @@ namespace GestionStock.Mobile
             builder.Services.AddTransient<CategoryFormPage>();
             builder.Services.AddTransient<OperationsPage>();
             builder.Services.AddTransient<FournisseursPage>();
+            builder.Services.AddTransient<UsersPage>();
 
             return builder.Build();
         }
