@@ -26,13 +26,13 @@
 
                     <!-- Logo container avec effet glassmorphism -->
                     <Border StrokeShape="RoundRectangle 22"
-                            BackgroundColor="#FFFFFF20"
+                            BackgroundColor="#ffff97"
                             Padding="14"
                             HeightRequest="84"
                             WidthRequest="84"
                             HorizontalOptions="Center"
                             StrokeThickness="1"
-                            Stroke="#FFFFFF30">
+                            Stroke="#ffff97">
                         <Image Source="standard_profil_logo.png"
                                Aspect="AspectFit"
                                HeightRequest="50"

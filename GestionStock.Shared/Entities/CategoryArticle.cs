@@ -1,4 +1,4 @@
-﻿namespace GestionStock.Shared.Entities;
+namespace GestionStock.Shared.Entities;
 
 public class CategoryArticle 
 {
@@ -8,7 +8,7 @@ public class CategoryArticle
     public string? Image {  get; set; }
 
     //Json column
-    public Dictionary<string, string> Attributes { get; set; }
+    public Dictionary<string, string> Attributes { get; set; } = new Dictionary<string, string>();
 
     public int? ParentId { get; set; }
 

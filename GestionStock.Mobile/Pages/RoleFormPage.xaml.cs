@@ -8,6 +8,9 @@ public partial class RoleFormPage : ContentPage
     private readonly RoleApiService _roleApiService;
     private int? _roleId;
 
+    // Used to pass data from the list page (avoids Shell query params complexity)
+    public static RoleDto? CurrentRole { get; set; }
+
     public string FormTitle => _roleId.HasValue ? "Modifier le Rôle" : "Nouveau Rôle";
 
     public RoleFormPage(RoleApiService roleApiService)
@@ -17,11 +20,21 @@ public partial class RoleFormPage : ContentPage
         BindingContext = this;
     }
 
-    public void LoadRole(RoleDto role)
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        _roleId = role.Id;
-        NomEntry.Text = role.Nom;
-        DescriptionEditor.Text = role.Description;
+        base.OnNavigatedTo(args);
+
+        _roleId = null;
+        NomEntry.Text = string.Empty;
+        DescriptionEditor.Text = string.Empty;
+
+        if (CurrentRole != null)
+        {
+            _roleId = CurrentRole.Id;
+            NomEntry.Text = CurrentRole.Nom;
+            DescriptionEditor.Text = CurrentRole.Description;
+        }
+
         OnPropertyChanged(nameof(FormTitle));
     }
 
@@ -47,15 +60,12 @@ public partial class RoleFormPage : ContentPage
         try
         {
             if (_roleId.HasValue)
-            {
                 await _roleApiService.UpdateRoleAsync(_roleId.Value, dto);
-            }
             else
-            {
                 await _roleApiService.CreateRoleAsync(dto);
-            }
 
-            await Navigation.PopAsync();
+            CurrentRole = null;
+            await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)
         {
@@ -79,8 +89,8 @@ public partial class RoleFormPage : ContentPage
         SaveButton.IsVisible = !isLoading;
         SavingIndicator.IsVisible = isLoading;
         SavingIndicator.IsRunning = isLoading;
-
         NomEntry.IsEnabled = !isLoading;
         DescriptionEditor.IsEnabled = !isLoading;
     }
 }
+

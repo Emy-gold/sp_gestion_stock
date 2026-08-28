@@ -18,6 +18,8 @@ public partial class AppShell : Shell
 
         Routing.RegisterRoute(nameof(ArticleFormPage), typeof(ArticleFormPage));
         Routing.RegisterRoute(nameof(CategoryFormPage), typeof(CategoryFormPage));
+        Routing.RegisterRoute(nameof(UserFormPage), typeof(UserFormPage));
+        Routing.RegisterRoute(nameof(RoleFormPage), typeof(RoleFormPage));
 
         UpdateFlyoutHeader();
     }
@@ -29,7 +31,7 @@ public partial class AppShell : Shell
             var user = _authService.CurrentUser;
             FlyoutUserName.Text = $"{user.Prenom} {user.Nom}".Trim();
             FlyoutUserEmail.Text = user.Email;
-            FlyoutUserRole.Text = $"⭐ {user.Role}";
+            FlyoutUserRole.Text = $"🛡️ {user.Role}";
 
             var initial = string.Empty;
             if (!string.IsNullOrEmpty(user.Prenom))

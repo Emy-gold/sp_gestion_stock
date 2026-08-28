@@ -14,9 +14,9 @@ public partial class RolesPage : ContentPage
         _roleApiService = roleApiService;
     }
 
-    protected override async void OnAppearing()
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        base.OnAppearing();
+        base.OnNavigatedTo(args);
         await LoadRolesAsync();
     }
 
@@ -45,24 +45,16 @@ public partial class RolesPage : ContentPage
 
     private async void OnAddRoleClicked(object? sender, EventArgs e)
     {
-        // Go to RoleFormPage for creation
-        var formPage = Handler?.MauiContext?.Services.GetService<RoleFormPage>();
-        if (formPage != null)
-        {
-            await Navigation.PushAsync(formPage);
-        }
+        RoleFormPage.CurrentRole = null;
+        await Shell.Current.GoToAsync(nameof(RoleFormPage));
     }
 
     private async void OnEditRoleClicked(object? sender, EventArgs e)
     {
         if (sender is Button btn && btn.CommandParameter is RoleDto role)
         {
-            var formPage = Handler?.MauiContext?.Services.GetService<RoleFormPage>();
-            if (formPage != null)
-            {
-                formPage.LoadRole(role);
-                await Navigation.PushAsync(formPage);
-            }
+            RoleFormPage.CurrentRole = role;
+            await Shell.Current.GoToAsync(nameof(RoleFormPage));
         }
     }
 

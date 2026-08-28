@@ -10,6 +10,9 @@ public partial class UserFormPage : ContentPage
     private readonly RoleApiService _roleApiService;
     private int? _userId;
 
+    // Used to pass data from UsersPage
+    public static UserViewModel? CurrentUser { get; set; }
+
     public string FormTitle => _userId.HasValue ? "Modifier l'utilisateur" : "Nouvel utilisateur";
     public ObservableCollection<RoleDto> Roles { get; set; } = new();
 
@@ -21,10 +24,36 @@ public partial class UserFormPage : ContentPage
         BindingContext = this;
     }
 
-    protected override async void OnAppearing()
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        base.OnAppearing();
+        base.OnNavigatedTo(args);
+
+        // Reset form
+        _userId = null;
+        PrenomEntry.Text = string.Empty;
+        NomEntry.Text = string.Empty;
+        EmailEntry.Text = string.Empty;
+        TelephoneEntry.Text = string.Empty;
+        RolePicker.SelectedItem = null;
+
         await LoadRolesAsync();
+
+        // Load existing user data if editing
+        if (CurrentUser != null)
+        {
+            _userId = CurrentUser.Id;
+            PrenomEntry.Text = CurrentUser.Prenom;
+            NomEntry.Text = CurrentUser.Nom;
+            EmailEntry.Text = CurrentUser.Email;
+            TelephoneEntry.Text = CurrentUser.Telephone ?? string.Empty;
+
+            if (CurrentUser.RoleId.HasValue)
+            {
+                RolePicker.SelectedItem = Roles.FirstOrDefault(r => r.Id == CurrentUser.RoleId.Value);
+            }
+        }
+
+        OnPropertyChanged(nameof(FormTitle));
     }
 
     private async Task LoadRolesAsync()
@@ -34,37 +63,13 @@ public partial class UserFormPage : ContentPage
             var roles = await _roleApiService.GetRolesAsync();
             Roles.Clear();
             foreach (var role in roles)
-            {
                 Roles.Add(role);
-            }
             RolePicker.ItemsSource = Roles;
         }
         catch (Exception ex)
         {
             await DisplayAlert("Erreur", $"Impossible de charger les rôles : {ex.Message}", "OK");
         }
-    }
-
-    public void LoadUser(UserViewModel user)
-    {
-        _userId = user.Id;
-        PrenomEntry.Text = user.Prenom;
-        NomEntry.Text = user.Nom;
-        EmailEntry.Text = user.Email;
-        TelephoneEntry.Text = user.Telephone;
-        
-        // Wait for roles to load to set the selected item, handled differently usually
-        // but for simplicity, we can do it after load or manually select by ID
-        Device.BeginInvokeOnMainThread(async () =>
-        {
-            await Task.Delay(500); // Give it a bit of time to load roles
-            if (user.RoleId.HasValue && Roles.Any())
-            {
-                RolePicker.SelectedItem = Roles.FirstOrDefault(r => r.Id == user.RoleId.Value);
-            }
-        });
-
-        OnPropertyChanged(nameof(FormTitle));
     }
 
     private async void OnSaveClicked(object? sender, EventArgs e)
@@ -94,15 +99,12 @@ public partial class UserFormPage : ContentPage
         try
         {
             if (_userId.HasValue)
-            {
                 await _userApiService.UpdateUserAsync(_userId.Value, dto);
-            }
             else
-            {
                 await _userApiService.CreateUserAsync(dto);
-            }
 
-            await Navigation.PopAsync();
+            CurrentUser = null;
+            await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)
         {
@@ -126,7 +128,6 @@ public partial class UserFormPage : ContentPage
         SaveButton.IsVisible = !isLoading;
         SavingIndicator.IsVisible = isLoading;
         SavingIndicator.IsRunning = isLoading;
-
         NomEntry.IsEnabled = !isLoading;
         PrenomEntry.IsEnabled = !isLoading;
         EmailEntry.IsEnabled = !isLoading;
@@ -134,3 +135,4 @@ public partial class UserFormPage : ContentPage
         RolePicker.IsEnabled = !isLoading;
     }
 }
+

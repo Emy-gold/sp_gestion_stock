@@ -34,7 +34,7 @@
                 <Label Grid.Column="1"
                        x:Name="RolesCountLabel"
                        Text="0 rôles"
-                       TextColor="#FEF08A"
+                       TextColor="#BFDBFE"
                        FontAttributes="Bold"
                        FontSize="13"
                        VerticalOptions="Center" />

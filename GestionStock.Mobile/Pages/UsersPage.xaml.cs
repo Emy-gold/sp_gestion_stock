@@ -50,9 +50,9 @@ public partial class UsersPage : ContentPage
         _userApiService = userApiService;
     }
 
-    protected override async void OnAppearing()
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        base.OnAppearing();
+        base.OnNavigatedTo(args);
         await LoadUsersAsync();
     }
 
@@ -117,14 +117,7 @@ public partial class UsersPage : ContentPage
 
     private async Task ShowUserFormAsync(UserViewModel? existing)
     {
-        var formPage = Handler?.MauiContext?.Services.GetService<UserFormPage>();
-        if (formPage != null)
-        {
-            if (existing != null)
-            {
-                formPage.LoadUser(existing);
-            }
-            await Navigation.PushAsync(formPage);
-        }
+        UserFormPage.CurrentUser = existing;
+        await Shell.Current.GoToAsync(nameof(UserFormPage));
     }
 }

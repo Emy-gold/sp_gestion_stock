@@ -34,7 +34,7 @@
                 <Label Grid.Column="1"
                        x:Name="UsersCountLabel"
                        Text="0 utilisateurs"
-                       TextColor="#FEF08A"
+                       TextColor="#BFDBFE"
                        FontAttributes="Bold"
                        FontSize="13"
                        VerticalOptions="Center" />
@@ -122,7 +122,7 @@
 
                                     <Label Text="{Binding Telephone, TargetNullValue='Pas de téléphone'}"
                                            FontSize="11"
-                                           TextColor="#E5B869" />
+                                           TextColor="#64748B" />
                                 </VerticalStackLayout>
 
                                 <!-- Actions -->

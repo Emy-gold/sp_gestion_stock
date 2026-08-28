@@ -34,7 +34,7 @@
                 <Label Grid.Column="1"
                        x:Name="OperationsCountLabel"
                        Text="0 opérations"
-                       TextColor="#FEF08A"
+                       TextColor="#BFDBFE"
                        FontAttributes="Bold"
                        FontSize="13"
                        VerticalOptions="Center" />
@@ -100,7 +100,7 @@
                                     <Label Grid.Column="1"
                                            Text="{Binding FournisseurNom, TargetNullValue='Interne'}"
                                            FontSize="11"
-                                           TextColor="#E5B869"
+                                           TextColor="#64748B"
                                            FontAttributes="Bold" />
                                 </Grid>
                             </VerticalStackLayout>

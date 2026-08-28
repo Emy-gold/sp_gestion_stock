@@ -41,9 +41,9 @@
                 <!-- Avatar utilisateur -->
                 <Border HeightRequest="52"
                         WidthRequest="52"
-                        BackgroundColor="#FFFFFF20"
+                        BackgroundColor="#B1D3B9"
                         StrokeThickness="1"
-                        Stroke="#FFFFFF40">
+                        Stroke="#B1D3B9">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="26" />
                     </Border.StrokeShape>
@@ -71,7 +71,7 @@
 
             <!-- Badge Rôle -->
             <Border Grid.Row="1"
-                    BackgroundColor="#FFFFFF20"
+                    BackgroundColor="#B1D3B9"
                     Padding="10,4"
                     StrokeThickness="0"
                     HorizontalOptions="Start"
@@ -80,8 +80,8 @@
                     <RoundRectangle CornerRadius="12" />
                 </Border.StrokeShape>
                 <Label x:Name="FlyoutUserRole"
-                       Text="⭐ Administrateur"
-                       TextColor="#FFFBEB"
+                       Text="🛡️ Administrateur"
+                       TextColor="#FFFFFF"
                        FontSize="11"
                        FontAttributes="Bold" />
             </Border>
