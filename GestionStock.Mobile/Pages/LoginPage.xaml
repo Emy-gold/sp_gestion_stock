@@ -4,177 +4,197 @@
              x:Class="GestionStock.Mobile.Pages.LoginPage"
              Shell.FlyoutBehavior="Disabled"
              Shell.NavBarIsVisible="False"
-             BackgroundColor="{AppThemeBinding Light=#F0F4F8, Dark=#0A1220}">
+             BackgroundColor="#F5F7FA">
 
     <ScrollView>
-        <Grid RowDefinitions="Auto,*">
+        <Grid RowDefinitions="280,*">
 
-            <!-- En-tête avec dégradé et branding -->
-            <Grid Grid.Row="0" HeightRequest="260" BackgroundColor="#1A2B4A">
-                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10" Margin="0,20,0,0">
-                    <Border StrokeShape="RoundRectangle 24"
-                            BackgroundColor="#2E4270"
-                            Padding="12"
-                            HeightRequest="76"
-                            WidthRequest="76"
+            <!-- En-tête avec dégradé bleu professionnel -->
+            <Grid Grid.Row="0">
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#1E3A5F" Offset="0.0" />
+                        <GradientStop Color="#2563EB" Offset="0.6" />
+                        <GradientStop Color="#1D4ED8" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Grid.Background>
+
+                <VerticalStackLayout VerticalOptions="Center"
+                                     HorizontalOptions="Center"
+                                     Spacing="12"
+                                     Margin="0,30,0,0">
+
+                    <!-- Logo container avec effet glassmorphism -->
+                    <Border StrokeShape="RoundRectangle 22"
+                            BackgroundColor="#FFFFFF20"
+                            Padding="14"
+                            HeightRequest="84"
+                            WidthRequest="84"
                             HorizontalOptions="Center"
-                            StrokeThickness="0">
+                            StrokeThickness="1"
+                            Stroke="#FFFFFF30">
                         <Image Source="standard_profil_logo.png"
                                Aspect="AspectFit"
-                               HeightRequest="48"
-                               WidthRequest="48" />
+                               HeightRequest="50"
+                               WidthRequest="50" />
                     </Border>
+
                     <Label Text="STANDARD PROFIL"
-                           TextColor="#F5A623"
-                           FontSize="20"
+                           TextColor="#FFFFFF"
+                           FontSize="22"
                            FontAttributes="Bold"
-                           CharacterSpacing="2"
+                           CharacterSpacing="2.5"
                            HorizontalOptions="Center" />
+
                     <Label Text="Gestion de Stock &amp; Inventaire"
-                           TextColor="#CBD5E1"
+                           TextColor="#BFDBFE"
                            FontSize="13"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
             </Grid>
 
-            <!-- Carte de formulaire moderne -->
+            <!-- Carte de formulaire moderne light -->
             <Border Grid.Row="1"
-                    Margin="20,-30,20,30"
-                    Padding="24"
-                    BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                    Margin="24,-36,24,32"
+                    Padding="28,28,28,24"
+                    BackgroundColor="#FFFFFF"
                     StrokeThickness="0">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="20" />
+                    <RoundRectangle CornerRadius="24" />
                 </Border.StrokeShape>
                 <Border.Shadow>
-                    <Shadow Brush="#000000"
-                            Offset="0,6"
-                            Radius="16"
-                            Opacity="0.12" />
+                    <Shadow Brush="#1E3A5F"
+                            Offset="0,8"
+                            Radius="24"
+                            Opacity="0.10" />
                 </Border.Shadow>
 
-                <VerticalStackLayout Spacing="18">
+                <VerticalStackLayout Spacing="20">
 
-                    <Label Text="Connexion"
-                           FontSize="22"
-                           FontAttributes="Bold"
-                           TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
-                           Margin="0,0,0,4" />
+                    <!-- Titre -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Connexion"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="#1E293B" />
+                        <Label Text="Bienvenue ! Veuillez vous identifier."
+                               FontSize="13"
+                               TextColor="#64748B" />
+                    </VerticalStackLayout>
+
+                    <!-- Séparateur -->
+                    <BoxView HeightRequest="1"
+                             BackgroundColor="#F1F5F9"
+                             Margin="0,-4,0,-4" />
 
                     <!-- Bannière d'erreur -->
                     <Border x:Name="ErrorBanner"
                             IsVisible="False"
-                            BackgroundColor="#FEE2E2"
-                            Stroke="#EF4444"
+                            BackgroundColor="#FEF2F2"
+                            Stroke="#FECACA"
                             StrokeThickness="1"
-                            Padding="12,10">
+                            Padding="14,10">
                         <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="10" />
+                            <RoundRectangle CornerRadius="12" />
                         </Border.StrokeShape>
-                        <HorizontalStackLayout Spacing="8">
+                        <HorizontalStackLayout Spacing="10">
                             <Label Text="⚠️" FontSize="14" VerticalOptions="Center" />
                             <Label x:Name="ErrorMessageLabel"
-                                   TextColor="#B91C1C"
-                                   FontSize="12"
+                                   TextColor="#DC2626"
+                                   FontSize="13"
                                    LineBreakMode="WordWrap"
                                    VerticalOptions="Center" />
                         </HorizontalStackLayout>
                     </Border>
 
                     <!-- Champ Email -->
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="EMAIL"
-                               FontSize="11"
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Adresse email"
+                               FontSize="13"
                                FontAttributes="Bold"
-                               TextColor="{AppThemeBinding Light=#6B7F96, Dark=#9AAABB}"
-                               CharacterSpacing="1" />
-                        <Border BackgroundColor="{AppThemeBinding Light=#F8FAFC, Dark=#0D1A30}"
-                                Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}"
+                               TextColor="#374151" />
+                        <Border BackgroundColor="#F8FAFF"
+                                Stroke="#E2E8F0"
                                 StrokeThickness="1.5"
-                                Padding="14,0">
+                                Padding="16,0">
                             <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="12" />
+                                <RoundRectangle CornerRadius="14" />
                             </Border.StrokeShape>
                             <Entry x:Name="EmailEntry"
-                                   Placeholder="admin@standardprofil.com"
+                                   Placeholder="exemple@standardprofil.com"
                                    Keyboard="Email"
-                                   Text="admin@standardprofil.com"
-                                   TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
-                                   PlaceholderColor="{AppThemeBinding Light=#94A3B8, Dark=#475569}"
+                                   TextColor="#1E293B"
+                                   PlaceholderColor="#94A3B8"
                                    BackgroundColor="Transparent"
-                                   HeightRequest="48" />
+                                   HeightRequest="52" />
                         </Border>
                     </VerticalStackLayout>
 
                     <!-- Champ Mot de passe -->
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="MOT DE PASSE"
-                               FontSize="11"
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Mot de passe"
+                               FontSize="13"
                                FontAttributes="Bold"
-                               TextColor="{AppThemeBinding Light=#6B7F96, Dark=#9AAABB}"
-                               CharacterSpacing="1" />
-                        <Border BackgroundColor="{AppThemeBinding Light=#F8FAFC, Dark=#0D1A30}"
-                                Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}"
+                               TextColor="#374151" />
+                        <Border BackgroundColor="#F8FAFF"
+                                Stroke="#E2E8F0"
                                 StrokeThickness="1.5"
-                                Padding="14,0">
+                                Padding="16,0">
                             <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="12" />
+                                <RoundRectangle CornerRadius="14" />
                             </Border.StrokeShape>
                             <Grid ColumnDefinitions="*,Auto">
                                 <Entry x:Name="PasswordEntry"
                                        Grid.Column="0"
                                        Placeholder="••••••••••••"
                                        IsPassword="True"
-                                       Text="AdminPassword123!"
-                                       TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
-                                       PlaceholderColor="{AppThemeBinding Light=#94A3B8, Dark=#475569}"
+                                       TextColor="#1E293B"
+                                       PlaceholderColor="#94A3B8"
                                        BackgroundColor="Transparent"
-                                       HeightRequest="48" />
+                                       HeightRequest="52" />
                                 <Button Grid.Column="1"
                                         Text="👁️"
-                                        FontSize="14"
+                                        FontSize="15"
                                         BackgroundColor="Transparent"
                                         Clicked="OnTogglePasswordClicked"
-                                        WidthRequest="40"
-                                        HeightRequest="48" />
+                                        WidthRequest="44"
+                                        HeightRequest="52"
+                                        TextColor="#64748B" />
                             </Grid>
                         </Border>
                     </VerticalStackLayout>
 
-                    <!-- Raccourci Compte Admin Démo -->
-                    <Button Text="🔑 Remplir Compte Admin"
-                            Clicked="OnFillAdminClicked"
-                            BackgroundColor="{AppThemeBinding Light=#EFF6FF, Dark=#1E293B}"
-                            TextColor="#3B82F6"
-                            FontSize="12"
-                            FontAttributes="Bold"
-                            CornerRadius="8"
-                            HeightRequest="36"
-                            Padding="8,0" />
-
-                    <!-- Bouton Connexion -->
+                    <!-- Bouton Connexion principal -->
                     <Button x:Name="LoginButton"
                             Text="Se connecter"
                             Clicked="OnLoginClicked"
-                            BackgroundColor="#F5A623"
-                            TextColor="#1A2B4A"
+                            HeightRequest="54"
+                            CornerRadius="14"
                             FontSize="16"
                             FontAttributes="Bold"
-                            CornerRadius="12"
-                            HeightRequest="52"
-                            Margin="0,6,0,0" />
+                            TextColor="#FFFFFF"
+                            Margin="0,6,0,0">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#2563EB" Offset="0.0" />
+                                <GradientStop Color="#1D4ED8" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
 
+                    <!-- Indicateur de chargement -->
                     <ActivityIndicator x:Name="LoginLoadingIndicator"
                                        IsRunning="False"
                                        IsVisible="False"
-                                       Color="#F5A623"
-                                       HeightRequest="30" />
+                                       Color="#2563EB"
+                                       HeightRequest="32" />
 
+                    <!-- Footer -->
                     <Label Text="Standard Profil Group © 2026"
                            FontSize="11"
-                           TextColor="{AppThemeBinding Light=#94A3B8, Dark=#64748B}"
+                           TextColor="#CBD5E1"
                            HorizontalOptions="Center"
-                           Margin="0,10,0,0" />
+                           Margin="0,8,0,0" />
 
                 </VerticalStackLayout>
             </Border>

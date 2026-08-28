@@ -11,6 +11,8 @@ namespace GestionStock.Mobile
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
+            // Force light mode across the entire application
+            UserAppTheme = AppTheme.Light;
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

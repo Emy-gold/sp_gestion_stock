@@ -17,11 +17,6 @@ public partial class LoginPage : ContentPage
         PasswordEntry.IsPassword = !PasswordEntry.IsPassword;
     }
 
-    private void OnFillAdminClicked(object? sender, EventArgs e)
-    {
-        EmailEntry.Text = "admin@standardprofil.com";
-        PasswordEntry.Text = "AdminPassword123!";
-    }
 
     private async void OnLoginClicked(object? sender, EventArgs e)
     {

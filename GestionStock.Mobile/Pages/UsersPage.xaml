@@ -3,19 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestionStock.Mobile.Pages.UsersPage"
              Title="Gestion Utilisateurs"
-             BackgroundColor="{AppThemeBinding Light=#F1F5F9, Dark=#0B132B}">
+             BackgroundColor="#F5F7FA">
 
     <Grid RowDefinitions="Auto,Auto,*">
 
-        <!-- En-tête stats -->
+        <!-- Bannière d'en-tête avec dégradé bleu -->
         <Border Grid.Row="0"
                 Margin="16,12,16,8"
                 Padding="16,12"
-                BackgroundColor="#1A2B4A"
                 StrokeThickness="0">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="14" />
             </Border.StrokeShape>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#1E3A5F" Offset="0.0" />
+                    <GradientStop Color="#2563EB" Offset="1.0" />
+                </LinearGradientBrush>
+            </Border.Background>
             <Grid ColumnDefinitions="*,Auto">
                 <VerticalStackLayout Grid.Column="0" Spacing="2">
                     <Label Text="Gestion des Utilisateurs"
@@ -23,13 +28,13 @@
                            FontAttributes="Bold"
                            FontSize="15" />
                     <Label Text="Comptes d'accès à l'application"
-                           TextColor="#CBD5E1"
+                           TextColor="#BFDBFE"
                            FontSize="12" />
                 </VerticalStackLayout>
                 <Label Grid.Column="1"
                        x:Name="UsersCountLabel"
                        Text="0 utilisateurs"
-                       TextColor="#F5A623"
+                       TextColor="#FDE68A"
                        FontAttributes="Bold"
                        FontSize="13"
                        VerticalOptions="Center" />
@@ -40,8 +45,8 @@
         <Button Grid.Row="1"
                 Text="＋ Ajouter un utilisateur"
                 Clicked="OnAddUserClicked"
-                BackgroundColor="#F5A623"
-                TextColor="#1A2B4A"
+                BackgroundColor="#2563EB"
+                TextColor="White"
                 FontSize="13"
                 FontAttributes="Bold"
                 CornerRadius="12"
@@ -52,16 +57,16 @@
         <RefreshView Grid.Row="2"
                      x:Name="UsersRefreshView"
                      Refreshing="OnRefreshing"
-                     RefreshColor="#F5A623">
+                     RefreshColor="#2563EB">
             <CollectionView x:Name="UsersCollectionView"
                             Margin="16,0,16,16">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border Margin="0,6,0,6"
                                 Padding="16"
-                                BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                                BackgroundColor="White"
                                 StrokeThickness="1"
-                                Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                                Stroke="#E2E8F0">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="14" />
                             </Border.StrokeShape>
@@ -71,8 +76,13 @@
                                 <Border Grid.Column="0"
                                         HeightRequest="46"
                                         WidthRequest="46"
-                                        BackgroundColor="#2E4270"
                                         StrokeThickness="0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#1E3A5F" Offset="0.0" />
+                                            <GradientStop Color="#2563EB" Offset="1.0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="23" />
                                     </Border.StrokeShape>
@@ -89,15 +99,15 @@
                                     <Label Text="{Binding NomComplet}"
                                            FontAttributes="Bold"
                                            FontSize="14"
-                                           TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                                           TextColor="#1E293B"
                                            LineBreakMode="TailTruncation" />
                                     <Label Text="{Binding Email}"
                                            FontSize="12"
-                                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                           TextColor="#64748B"
                                            LineBreakMode="TailTruncation" />
                                     <Label Text="{Binding Telephone, TargetNullValue='Pas de téléphone'}"
                                            FontSize="11"
-                                           TextColor="#F5A623" />
+                                           TextColor="#F59E0B" />
                                 </VerticalStackLayout>
 
                                 <!-- Actions -->
@@ -106,7 +116,7 @@
                                             Clicked="OnEditUserClicked"
                                             CommandParameter="{Binding .}"
                                             BackgroundColor="#EFF6FF"
-                                            TextColor="#1A2B4A"
+                                            TextColor="#2563EB"
                                             FontSize="14"
                                             CornerRadius="8"
                                             HeightRequest="34"
@@ -116,7 +126,7 @@
                                             Clicked="OnDeleteUserClicked"
                                             CommandParameter="{Binding .}"
                                             BackgroundColor="#FEF2F2"
-                                            TextColor="#E74C3C"
+                                            TextColor="#DC2626"
                                             FontSize="14"
                                             CornerRadius="8"
                                             HeightRequest="34"
@@ -137,11 +147,11 @@
                         <Label Text="Aucun utilisateur enregistré"
                                FontSize="16"
                                FontAttributes="Bold"
-                               TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                               TextColor="#1E293B"
                                HorizontalOptions="Center" />
                         <Label Text="Appuyez sur '＋ Ajouter' pour créer un compte"
                                FontSize="13"
-                               TextColor="{AppThemeBinding Light=#94A3B8, Dark=#64748B}"
+                               TextColor="#64748B"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>

@@ -5,10 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:GestionStock.Mobile.Pages"
     FlyoutBehavior="Flyout"
-    Shell.BackgroundColor="#1A2B4A"
-    Shell.ForegroundColor="White"
-    Shell.TitleColor="White"
-    FlyoutBackgroundColor="{AppThemeBinding Light=#1A2B4A, Dark=#0A1220}">
+    Shell.BackgroundColor="#FFFFFF"
+    Shell.ForegroundColor="#1E293B"
+    Shell.TitleColor="#1E293B"
+    FlyoutBackgroundColor="#FFFFFF">
 
     <!-- En-tête Barre Supérieure -->
     <Shell.TitleView>
@@ -20,7 +20,7 @@
                    Aspect="AspectFit" />
             <Label Grid.Column="1"
                    Text="Standard Profil"
-                   TextColor="White"
+                   TextColor="#1E293B"
                    FontAttributes="Bold"
                    FontSize="17"
                    VerticalOptions="Center" />
@@ -29,19 +29,27 @@
 
     <!-- En-tête du Menu Latéral (Flyout Header) -->
     <Shell.FlyoutHeader>
-        <Grid BackgroundColor="#121F36" Padding="20,40,20,24" RowDefinitions="Auto,Auto,Auto" RowSpacing="6">
+        <Grid Padding="20,44,20,24" RowDefinitions="Auto,Auto,Auto" RowSpacing="6">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#1E3A5F" Offset="0.0" />
+                    <GradientStop Color="#2563EB" Offset="1.0" />
+                </LinearGradientBrush>
+            </Grid.Background>
+
             <HorizontalStackLayout Grid.Row="0" Spacing="12">
                 <!-- Avatar utilisateur -->
                 <Border HeightRequest="52"
                         WidthRequest="52"
-                        BackgroundColor="#F5A623"
-                        StrokeThickness="0">
+                        BackgroundColor="#FFFFFF20"
+                        StrokeThickness="1"
+                        Stroke="#FFFFFF40">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="26" />
                     </Border.StrokeShape>
                     <Label x:Name="FlyoutAvatarInitial"
                            Text="SP"
-                           TextColor="#1A2B4A"
+                           TextColor="#FFFFFF"
                            FontSize="20"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
@@ -51,19 +59,19 @@
                 <VerticalStackLayout VerticalOptions="Center" Spacing="2">
                     <Label x:Name="FlyoutUserName"
                            Text="Admin"
-                           TextColor="White"
+                           TextColor="#FFFFFF"
                            FontSize="16"
                            FontAttributes="Bold" />
                     <Label x:Name="FlyoutUserEmail"
                            Text="admin@standardprofil.com"
-                           TextColor="#94A3B8"
+                           TextColor="#BFDBFE"
                            FontSize="12" />
                 </VerticalStackLayout>
             </HorizontalStackLayout>
 
             <!-- Badge Rôle -->
             <Border Grid.Row="1"
-                    BackgroundColor="#2E4270"
+                    BackgroundColor="#FFFFFF20"
                     Padding="10,4"
                     StrokeThickness="0"
                     HorizontalOptions="Start"
@@ -73,7 +81,7 @@
                 </Border.StrokeShape>
                 <Label x:Name="FlyoutUserRole"
                        Text="⭐ Administrateur"
-                       TextColor="#F5A623"
+                       TextColor="#FEF3C7"
                        FontSize="11"
                        FontAttributes="Bold" />
             </Border>
@@ -82,15 +90,21 @@
 
     <!-- Pied du Menu Latéral (Flyout Footer) -->
     <Shell.FlyoutFooter>
-        <Grid BackgroundColor="#121F36" Padding="16,14">
-            <Button Text="🚪  Se déconnecter"
-                    Clicked="OnLogoutClicked"
-                    BackgroundColor="#EF4444"
-                    TextColor="White"
-                    FontSize="13"
-                    FontAttributes="Bold"
-                    CornerRadius="10"
-                    HeightRequest="44" />
+        <Grid BackgroundColor="#F8FAFC" Padding="16,14">
+            <Border BackgroundColor="#FEF2F2"
+                    StrokeThickness="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Button Text="🚪  Se déconnecter"
+                        Clicked="OnLogoutClicked"
+                        BackgroundColor="Transparent"
+                        TextColor="#DC2626"
+                        FontSize="13"
+                        FontAttributes="Bold"
+                        CornerRadius="10"
+                        HeightRequest="44" />
+            </Border>
         </Grid>
     </Shell.FlyoutFooter>
 

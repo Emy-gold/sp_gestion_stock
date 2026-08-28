@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestionStock.Mobile.Pages.CategoriesPage"
              Title="Catégories"
-             BackgroundColor="{AppThemeBinding Light=#F1F5F9, Dark=#0B132B}">
+             BackgroundColor="#F5F7FA">
 
     <Grid RowDefinitions="Auto,*">
 
@@ -11,8 +11,8 @@
         <Border Grid.Row="0"
                 Margin="16,12,16,8"
                 Padding="12,0"
-                BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
-                Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}"
+                BackgroundColor="White"
+                Stroke="#E2E8F0"
                 StrokeThickness="1.5">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="12" />
@@ -32,16 +32,16 @@
         <RefreshView Grid.Row="1"
                      x:Name="CategoriesRefreshView"
                      Refreshing="OnRefreshing"
-                     RefreshColor="#F5A623">
+                     RefreshColor="#2563EB">
             <CollectionView x:Name="CategoriesCollectionView"
                             Margin="16,0,16,16">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border Margin="0,6,0,6"
                                 Padding="16"
-                                BackgroundColor="{AppThemeBinding Light=White, Dark=#162235}"
+                                BackgroundColor="White"
                                 StrokeThickness="1"
-                                Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2E4270}">
+                                Stroke="#E2E8F0">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="OnCategoryTapped" CommandParameter="{Binding .}" />
                             </Border.GestureRecognizers>
@@ -64,10 +64,10 @@
                                     <Label Text="{Binding Nom}"
                                            FontAttributes="Bold"
                                            FontSize="15"
-                                           TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}" />
+                                           TextColor="#1E293B" />
                                     <Label Text="{Binding Description, TargetNullValue='Aucune description'}"
                                            FontSize="12"
-                                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                           TextColor="#64748B"
                                            LineBreakMode="TailTruncation" />
                                 </VerticalStackLayout>
 
@@ -97,7 +97,7 @@
                         <Label Text="Aucune catégorie trouvée"
                                FontSize="16"
                                FontAttributes="Bold"
-                               TextColor="{AppThemeBinding Light=#1A2B4A, Dark=#E8EEF8}"
+                               TextColor="#1E293B"
                                HorizontalOptions="Center" />
                     </VerticalStackLayout>
                 </CollectionView.EmptyView>
@@ -108,7 +108,7 @@
         <Button Grid.Row="1"
                 Text="＋"
                 Clicked="OnAddCategoryClicked"
-                BackgroundColor="#F5A623"
+                BackgroundColor="#2563EB"
                 TextColor="White"
                 FontSize="28"
                 FontAttributes="Bold"
@@ -118,6 +118,6 @@
                 HorizontalOptions="End"
                 VerticalOptions="End"
                 Margin="20"
-                Shadow="{Shadow Brush=Black, Offset='0,5', Opacity=0.3, Radius=8}" />
+                Shadow="{Shadow Brush='#2563EB', Offset='0,4', Opacity=0.3, Radius=10}" />
     </Grid>
 </ContentPage>
