@@ -81,7 +81,7 @@
                 </Border.StrokeShape>
                 <Label x:Name="FlyoutUserRole"
                        Text="⭐ Administrateur"
-                       TextColor="#FEF3C7"
+                       TextColor="#FFFBEB"
                        FontSize="11"
                        FontAttributes="Bold" />
             </Border>
@@ -129,8 +129,18 @@
         <ShellContent ContentTemplate="{DataTemplate pages:FournisseursPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Gestion Utilisateurs" Icon="dotnet_bot.png" Route="UsersPage">
+    <FlyoutItem Title="👥 Utilisateurs">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="OpenSansRegular" Glyph="👥" Color="#2563EB" />
+        </FlyoutItem.Icon>
         <ShellContent ContentTemplate="{DataTemplate pages:UsersPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="🛡️ Rôles">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="OpenSansRegular" Glyph="🛡️" Color="#2563EB" />
+        </FlyoutItem.Icon>
+        <ShellContent ContentTemplate="{DataTemplate pages:RolesPage}" />
     </FlyoutItem>
 
 </Shell>

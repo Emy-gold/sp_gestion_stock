@@ -16,9 +16,18 @@ public class GestionStockDbContext : DbContext
     public DbSet<Operation> Operations => Set<Operation>();
     public DbSet<DetailOperation> DetailOperations => Set<DetailOperation>();
 
+    public DbSet<Role> Roles => Set<Role>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);
+
+		// ApplicationUser -> Role
+		modelBuilder.Entity<ApplicationUser>()
+			.HasOne(u => u.Role)
+			.WithMany(r => r.Users)
+			.HasForeignKey(u => u.RoleId)
+			.OnDelete(DeleteBehavior.SetNull);
 
 		// CategoryArticle : auto-reference (parent/enfants)
 		modelBuilder.Entity<CategoryArticle>()

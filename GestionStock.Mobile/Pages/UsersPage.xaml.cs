@@ -11,6 +11,8 @@ public class UserViewModel
     public string Prenom { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string? Telephone { get; set; }
+    public int? RoleId { get; set; }
+    public string? RoleNom { get; set; }
 
     public string NomComplet => $"{Prenom} {Nom}".Trim();
 
@@ -31,7 +33,9 @@ public class UserViewModel
         Nom = dto.Nom,
         Prenom = dto.Prenom,
         Email = dto.Email,
-        Telephone = dto.Telephone
+        Telephone = dto.Telephone,
+        RoleId = dto.RoleId,
+        RoleNom = dto.RoleNom
     };
 }
 
@@ -113,67 +117,14 @@ public partial class UsersPage : ContentPage
 
     private async Task ShowUserFormAsync(UserViewModel? existing)
     {
-        var isEdit = existing != null;
-        var title = isEdit ? "Modifier l'utilisateur" : "Nouvel utilisateur";
-
-        // Prenom
-        var prenom = await DisplayPromptAsync(title, "Prénom :",
-            initialValue: existing?.Prenom ?? string.Empty,
-            placeholder: "ex: Jean",
-            maxLength: 50,
-            keyboard: Keyboard.Text);
-        if (prenom == null) return;
-
-        // Nom
-        var nom = await DisplayPromptAsync(title, "Nom :",
-            initialValue: existing?.Nom ?? string.Empty,
-            placeholder: "ex: Dupont",
-            maxLength: 50,
-            keyboard: Keyboard.Text);
-        if (nom == null) return;
-
-        // Email
-        var email = await DisplayPromptAsync(title, "Email :",
-            initialValue: existing?.Email ?? string.Empty,
-            placeholder: "ex: jean.dupont@email.com",
-            maxLength: 100,
-            keyboard: Keyboard.Email);
-        if (email == null) return;
-
-        // Téléphone
-        var telephone = await DisplayPromptAsync(title, "Téléphone (optionnel) :",
-            initialValue: existing?.Telephone ?? string.Empty,
-            placeholder: "ex: +212 6 00 00 00 00",
-            maxLength: 20,
-            keyboard: Keyboard.Telephone);
-        if (telephone == null) return;
-
-        if (string.IsNullOrWhiteSpace(nom) || string.IsNullOrWhiteSpace(email))
+        var formPage = Handler?.MauiContext?.Services.GetService<UserFormPage>();
+        if (formPage != null)
         {
-            await DisplayAlert("Validation", "Le nom et l'email sont obligatoires.", "OK");
-            return;
-        }
-
-        var dto = new UserCreateDto
-        {
-            Nom = nom.Trim(),
-            Prenom = prenom.Trim(),
-            Email = email.Trim(),
-            Telephone = string.IsNullOrWhiteSpace(telephone) ? null : telephone.Trim()
-        };
-
-        try
-        {
-            if (isEdit)
-                await _userApiService.UpdateUserAsync(existing!.Id, dto);
-            else
-                await _userApiService.CreateUserAsync(dto);
-
-            await LoadUsersAsync();
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Erreur", ex.Message, "OK");
+            if (existing != null)
+            {
+                formPage.LoadUser(existing);
+            }
+            await Navigation.PushAsync(formPage);
         }
     }
 }

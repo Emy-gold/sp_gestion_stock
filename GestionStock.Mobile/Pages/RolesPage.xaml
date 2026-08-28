@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GestionStock.Mobile.Pages.UsersPage"
-             Title="Gestion Utilisateurs"
+             x:Class="GestionStock.Mobile.Pages.RolesPage"
+             Title="Gestion des Rôles"
              BackgroundColor="#F5F7FA">
 
     <Grid RowDefinitions="Auto,Auto,*">
@@ -23,17 +23,17 @@
             </Border.Background>
             <Grid ColumnDefinitions="*,Auto">
                 <VerticalStackLayout Grid.Column="0" Spacing="2">
-                    <Label Text="Gestion des Utilisateurs"
+                    <Label Text="Gestion des Rôles"
                            TextColor="White"
                            FontAttributes="Bold"
                            FontSize="15" />
-                    <Label Text="Comptes d'accès à l'application"
+                    <Label Text="Gérer les permissions"
                            TextColor="#BFDBFE"
                            FontSize="12" />
                 </VerticalStackLayout>
                 <Label Grid.Column="1"
-                       x:Name="UsersCountLabel"
-                       Text="0 utilisateurs"
+                       x:Name="RolesCountLabel"
+                       Text="0 rôles"
                        TextColor="#FEF08A"
                        FontAttributes="Bold"
                        FontSize="13"
@@ -43,8 +43,8 @@
 
         <!-- Bouton Ajouter -->
         <Button Grid.Row="1"
-                Text="＋ Ajouter un utilisateur"
-                Clicked="OnAddUserClicked"
+                Text="＋ Ajouter un rôle"
+                Clicked="OnAddRoleClicked"
                 BackgroundColor="#2563EB"
                 TextColor="White"
                 FontSize="13"
@@ -53,12 +53,12 @@
                 HeightRequest="44"
                 Margin="16,0,16,8" />
 
-        <!-- Liste des utilisateurs -->
+        <!-- Liste des rôles -->
         <RefreshView Grid.Row="2"
-                     x:Name="UsersRefreshView"
+                     x:Name="RolesRefreshView"
                      Refreshing="OnRefreshing"
                      RefreshColor="#2563EB">
-            <CollectionView x:Name="UsersCollectionView"
+            <CollectionView x:Name="RolesCollectionView"
                             Margin="16,0,16,16">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -72,63 +72,38 @@
                             </Border.StrokeShape>
                             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
 
-                                <!-- Avatar initiales -->
+                                <!-- Icone -->
                                 <Border Grid.Column="0"
                                         HeightRequest="46"
                                         WidthRequest="46"
+                                        BackgroundColor="#EFF6FF"
                                         StrokeThickness="0">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                            <GradientStop Color="#1E3A5F" Offset="0.0" />
-                                            <GradientStop Color="#2563EB" Offset="1.0" />
-                                        </LinearGradientBrush>
-                                    </Border.Background>
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="23" />
                                     </Border.StrokeShape>
-                                    <Label Text="{Binding Initiales}"
-                                           TextColor="White"
-                                           FontSize="16"
-                                           FontAttributes="Bold"
+                                    <Label Text="🛡️"
+                                           FontSize="20"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center" />
                                 </Border>
 
-                                <!-- Infos utilisateur -->
+                                <!-- Infos rôle -->
                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="3">
-                                    <Label Text="{Binding NomComplet}"
+                                    <Label Text="{Binding Nom}"
                                            FontAttributes="Bold"
                                            FontSize="14"
                                            TextColor="#1E293B"
                                            LineBreakMode="TailTruncation" />
-                                    <Label Text="{Binding Email}"
+                                    <Label Text="{Binding Description, TargetNullValue='Aucune description'}"
                                            FontSize="12"
                                            TextColor="#64748B"
                                            LineBreakMode="TailTruncation" />
-                                           
-                                    <!-- Role Badge -->
-                                    <Border BackgroundColor="#EFF6FF"
-                                            Padding="6,2"
-                                            HorizontalOptions="Start"
-                                            StrokeThickness="0">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="6" />
-                                        </Border.StrokeShape>
-                                        <Label Text="{Binding RoleNom, TargetNullValue='Aucun rôle'}"
-                                               FontSize="10"
-                                               TextColor="#2563EB"
-                                               FontAttributes="Bold" />
-                                    </Border>
-
-                                    <Label Text="{Binding Telephone, TargetNullValue='Pas de téléphone'}"
-                                           FontSize="11"
-                                           TextColor="#E5B869" />
                                 </VerticalStackLayout>
 
                                 <!-- Actions -->
                                 <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="6">
                                     <Button Text="✏️"
-                                            Clicked="OnEditUserClicked"
+                                            Clicked="OnEditRoleClicked"
                                             CommandParameter="{Binding .}"
                                             BackgroundColor="#EFF6FF"
                                             TextColor="#2563EB"
@@ -138,7 +113,7 @@
                                             WidthRequest="40"
                                             Padding="0" />
                                     <Button Text="🗑️"
-                                            Clicked="OnDeleteUserClicked"
+                                            Clicked="OnDeleteRoleClicked"
                                             CommandParameter="{Binding .}"
                                             BackgroundColor="#FEF2F2"
                                             TextColor="#DC2626"
@@ -158,17 +133,12 @@
                                          VerticalOptions="Center"
                                          Margin="40"
                                          Spacing="10">
-                        <Label Text="👤" FontSize="44" HorizontalOptions="Center" />
-                        <Label Text="Aucun utilisateur enregistré"
+                        <Label Text="🛡️" FontSize="44" HorizontalOptions="Center" />
+                        <Label Text="Aucun rôle enregistré"
                                FontSize="16"
                                FontAttributes="Bold"
                                TextColor="#1E293B"
                                HorizontalOptions="Center" />
-                        <Label Text="Appuyez sur '＋ Ajouter' pour créer un compte"
-                               FontSize="13"
-                               TextColor="#64748B"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
                 </CollectionView.EmptyView>
             </CollectionView>

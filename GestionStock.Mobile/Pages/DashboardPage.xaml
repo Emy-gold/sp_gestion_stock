@@ -32,7 +32,7 @@
                                    FontSize="20"
                                    FontAttributes="Bold" />
                             <Label Text="Standard Profil — Gestion de Stock"
-                                   TextColor="#FDE68A"
+                                   TextColor="#FEF08A"
                                    FontSize="12"
                                    FontAttributes="Bold"
                                    Margin="0,4,0,0" />
@@ -243,7 +243,10 @@
                                         <Border.StrokeShape>
                                             <RoundRectangle CornerRadius="8" />
                                         </Border.StrokeShape>
-                                        <Label Text="📦" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        <Grid>
+                                            <Label Text="📦" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+                                            <Image Source="{Binding Image}" Aspect="AspectFill" />
+                                        </Grid>
                                     </Border>
 
                                     <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">

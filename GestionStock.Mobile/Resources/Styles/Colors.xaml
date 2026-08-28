@@ -13,7 +13,7 @@
     <Color x:Key="PrimaryDarkText">#E8EEF8</Color>
 
     <!-- Or / Ambre — couleur d'accent -->
-    <Color x:Key="Accent">#F5A623</Color>
+    <Color x:Key="Accent">#E5B869</Color>
     <Color x:Key="AccentDark">#C9851A</Color>
     <Color x:Key="AccentLight">#FFD080</Color>
 
@@ -35,7 +35,7 @@
     <Color x:Key="OffBlack">#0D1A30</Color>
     <Color x:Key="MidnightBlue">#0A1628</Color>
     <Color x:Key="Magenta">#D63384</Color>
-    <Color x:Key="Yellow">#F1C40F</Color>
+    <Color x:Key="Yellow">#FDE047</Color>
 
     <!-- Gris -->
     <Color x:Key="Gray100">#F5F7FA</Color>

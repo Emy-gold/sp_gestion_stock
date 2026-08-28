@@ -22,13 +22,16 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<List<UserDto>>> GetUsers()
     {
         var users = await _context.ApplicationUsers
+            .Include(u => u.Role)
             .Select(u => new UserDto
             {
                 Id = u.Id,
                 Nom = u.Nom,
                 Prenom = u.Prenom,
                 Email = u.Email,
-                Telephone = u.Telephone
+                Telephone = u.Telephone,
+                RoleId = u.RoleId,
+                RoleNom = u.Role != null ? u.Role.Nom : null
             })
             .OrderBy(u => u.Nom)
             .ToListAsync();
@@ -40,7 +43,7 @@ public class UsersController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<UserDto>> GetUser(int id)
     {
-        var user = await _context.ApplicationUsers.FindAsync(id);
+        var user = await _context.ApplicationUsers.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
         if (user == null)
             return NotFound();
 
@@ -50,7 +53,9 @@ public class UsersController : ControllerBase
             Nom = user.Nom,
             Prenom = user.Prenom,
             Email = user.Email,
-            Telephone = user.Telephone
+            Telephone = user.Telephone,
+            RoleId = user.RoleId,
+            RoleNom = user.Role?.Nom
         });
     }
 
@@ -72,11 +77,17 @@ public class UsersController : ControllerBase
             Nom = dto.Nom.Trim(),
             Prenom = dto.Prenom.Trim(),
             Email = dto.Email.Trim(),
-            Telephone = dto.Telephone?.Trim()
+            Telephone = dto.Telephone?.Trim(),
+            RoleId = dto.RoleId
         };
 
         _context.ApplicationUsers.Add(user);
         await _context.SaveChangesAsync();
+
+        if (user.RoleId.HasValue)
+        {
+            await _context.Entry(user).Reference(u => u.Role).LoadAsync();
+        }
 
         var result = new UserDto
         {
@@ -84,7 +95,9 @@ public class UsersController : ControllerBase
             Nom = user.Nom,
             Prenom = user.Prenom,
             Email = user.Email,
-            Telephone = user.Telephone
+            Telephone = user.Telephone,
+            RoleId = user.RoleId,
+            RoleNom = user.Role?.Nom
         };
 
         return CreatedAtAction(nameof(GetUser), new { id = user.Id }, result);
@@ -108,6 +121,7 @@ public class UsersController : ControllerBase
         user.Prenom = dto.Prenom.Trim();
         user.Email = dto.Email.Trim();
         user.Telephone = dto.Telephone?.Trim();
+        user.RoleId = dto.RoleId;
 
         await _context.SaveChangesAsync();
         return NoContent();

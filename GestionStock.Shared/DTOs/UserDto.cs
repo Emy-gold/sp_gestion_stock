@@ -7,6 +7,8 @@ public class UserDto
     public string Prenom { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string? Telephone { get; set; }
+    public int? RoleId { get; set; }
+    public string? RoleNom { get; set; }
 }
 
 public class UserCreateDto
@@ -15,4 +17,5 @@ public class UserCreateDto
     public string Prenom { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string? Telephone { get; set; }
+    public int? RoleId { get; set; }
 }
