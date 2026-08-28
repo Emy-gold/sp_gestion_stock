@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ✅ Écouter sur toutes les interfaces réseau (nécessaire pour téléphone physique)
+// Port 5026 = HTTP (accessible depuis le réseau Wi-Fi local)
+builder.WebHost.UseUrls("http://0.0.0.0:5026");
+
 // Add services to the container.
 
 builder.Services.AddControllers();
