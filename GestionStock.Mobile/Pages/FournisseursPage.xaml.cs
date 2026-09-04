@@ -6,17 +6,23 @@ namespace GestionStock.Mobile.Pages;
 public partial class FournisseursPage : ContentPage
 {
     private readonly FournisseurApiService _fournisseurApiService;
+    private readonly AuthService _authService;
     private List<FournisseurDto> _allFournisseurs = new();
 
-    public FournisseursPage(FournisseurApiService fournisseurApiService)
+    public FournisseursPage(FournisseurApiService fournisseurApiService, AuthService authService)
     {
         InitializeComponent();
         _fournisseurApiService = fournisseurApiService;
+        _authService = authService;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+
+        var isAdmin = string.Equals(_authService.CurrentUser?.Role, "Administrateur", StringComparison.OrdinalIgnoreCase);
+        AddFournisseurButton.IsVisible = isAdmin;
+
         await LoadFournisseursAsync();
     }
 
@@ -55,5 +61,24 @@ public partial class FournisseursPage : ContentPage
     private async void OnRefreshing(object? sender, EventArgs e)
     {
         await LoadFournisseursAsync();
+    }
+
+    private async void OnAddFournisseurClicked(object? sender, EventArgs e)
+    {
+        var isAdmin = string.Equals(_authService.CurrentUser?.Role, "Administrateur", StringComparison.OrdinalIgnoreCase);
+        if (!isAdmin) return;
+
+        await Shell.Current.GoToAsync(nameof(FournisseurFormPage));
+    }
+
+    private async void OnFournisseurTapped(object? sender, TappedEventArgs e)
+    {
+        var isAdmin = string.Equals(_authService.CurrentUser?.Role, "Administrateur", StringComparison.OrdinalIgnoreCase);
+        if (!isAdmin) return;
+
+        if (e.Parameter is FournisseurDto fournisseur)
+        {
+            await Shell.Current.GoToAsync($"{nameof(FournisseurFormPage)}?fournisseurId={fournisseur.Id}");
+        }
     }
 }

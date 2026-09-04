@@ -49,6 +49,7 @@ namespace GestionStock.Mobile
             builder.Services.AddTransient<CategoryOperationsPage>();
             builder.Services.AddTransient<CategoryOperationFormPage>();
             builder.Services.AddTransient<FournisseursPage>();
+            builder.Services.AddTransient<FournisseurFormPage>();
             builder.Services.AddTransient<UsersPage>();
             builder.Services.AddTransient<UserFormPage>();
             builder.Services.AddTransient<RolesPage>();
