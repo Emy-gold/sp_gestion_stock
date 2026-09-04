@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestionStock.Mobile.Pages.OperationFormPage"
-             Title="Nouveau mouvement de stock"
+             Title="Nouvelle opération"
              BackgroundColor="#F5F7FA">
 
     <ScrollView>
@@ -16,7 +16,7 @@
                         <GradientStop Color="#2563EB" Offset="1.0" />
                     </LinearGradientBrush>
                 </Grid.Background>
-                <Label Text="Saisie d'un mouvement de stock"
+                <Label Text="Saisie d'une opération"
                        TextColor="#BFDBFE"
                        FontSize="14"
                        FontAttributes="Bold"
@@ -49,7 +49,7 @@
 
                 <!-- Date de l'opération -->
                 <VerticalStackLayout Spacing="6">
-                    <Label Text="DATE DU MOUVEMENT *"
+                    <Label Text="DATE DE L'OPÉRATION *"
                            FontSize="11"
                            FontAttributes="Bold"
                            TextColor="#374151"
@@ -67,10 +67,9 @@
                                     HeightRequest="48" />
                     </Border>
                 </VerticalStackLayout>
-
                 <!-- Catégorie d'opération -->
                 <VerticalStackLayout Spacing="6">
-                    <Label Text="TYPE DE MOUVEMENT *"
+                    <Label Text="CATÉGORIE D'OPÉRATION *"
                            FontSize="11"
                            FontAttributes="Bold"
                            TextColor="#374151"
@@ -83,7 +82,7 @@
                             <RoundRectangle CornerRadius="10" />
                         </Border.StrokeShape>
                         <Picker x:Name="CategoryPicker"
-                                Title="Sélectionner un type de mouvement"
+                                Title="Sélectionner une catégorie d'opération"
                                 TitleColor="#94A3B8"
                                 TextColor="#1E293B"
                                 BackgroundColor="Transparent"
@@ -156,7 +155,7 @@
                             <RoundRectangle CornerRadius="12" />
                         </Border.StrokeShape>
                         <VerticalStackLayout Spacing="12">
-                            <Label Text="Ajouter un article au mouvement"
+                            <Label Text="Ajouter un article à l'opération"
                                    FontSize="13"
                                    FontAttributes="Bold"
                                    TextColor="#1E3A5F" />

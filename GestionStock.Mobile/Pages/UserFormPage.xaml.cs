@@ -34,6 +34,7 @@ public partial class UserFormPage : ContentPage
         NomEntry.Text = string.Empty;
         EmailEntry.Text = string.Empty;
         TelephoneEntry.Text = string.Empty;
+        PasswordEntry.Text = string.Empty;
         RolePicker.SelectedItem = null;
 
         await LoadRolesAsync();
@@ -83,6 +84,12 @@ public partial class UserFormPage : ContentPage
             return;
         }
 
+        if (!_userId.HasValue && string.IsNullOrWhiteSpace(PasswordEntry.Text))
+        {
+            ShowError("Le mot de passe est obligatoire pour un nouvel utilisateur.");
+            return;
+        }
+
         var selectedRole = RolePicker.SelectedItem as RoleDto;
 
         var dto = new UserCreateDto
@@ -91,6 +98,7 @@ public partial class UserFormPage : ContentPage
             Prenom = PrenomEntry.Text.Trim(),
             Email = EmailEntry.Text.Trim(),
             Telephone = string.IsNullOrWhiteSpace(TelephoneEntry.Text) ? null : TelephoneEntry.Text.Trim(),
+            MotDePasse = PasswordEntry.Text?.Trim() ?? string.Empty,
             RoleId = selectedRole?.Id
         };
 

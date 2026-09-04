@@ -109,42 +109,61 @@
     </Shell.FlyoutFooter>
 
     <!-- Menu Items -->
-    <FlyoutItem Title="Tableau de bord" Icon="dotnet_bot.png" Route="DashboardPage">
+    <FlyoutItem Title="Tableau de bord" Route="DashboardPage">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="OpenSansRegular" Glyph="📊" Color="#2563EB" />
+        </FlyoutItem.Icon>
         <ShellContent ContentTemplate="{DataTemplate pages:DashboardPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Gestion des Articles" Icon="dotnet_bot.png" Route="ArticlesPage">
+    <FlyoutItem Title="Gestion des Articles" Route="ArticlesPage">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="OpenSansRegular" Glyph="📦" Color="#2563EB" />
+        </FlyoutItem.Icon>
         <ShellContent ContentTemplate="{DataTemplate pages:ArticlesPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Gestion catégories" Icon="dotnet_bot.png" Route="CategoriesPage">
+    <FlyoutItem Title="Gestion Catégories Articles" Route="CategoriesPage">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="OpenSansRegular" Glyph="🏷️" Color="#2563EB" />
+        </FlyoutItem.Icon>
         <ShellContent ContentTemplate="{DataTemplate pages:CategoriesPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Gestion Opérations" Icon="dotnet_bot.png" Route="OperationsPage">
+    <FlyoutItem Title="Gestion Opérations" Route="OperationsPage">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="OpenSansRegular" Glyph="🔄" Color="#2563EB" />
+        </FlyoutItem.Icon>
         <ShellContent ContentTemplate="{DataTemplate pages:OperationsPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Gestion Catégories d'Opérations" Icon="dotnet_bot.png" Route="CategoryOperationsPage">
+    <FlyoutItem Title="Gestion Catégories d'Opérations" Route="CategoryOperationsPage">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="OpenSansRegular" Glyph="📁" Color="#2563EB" />
+        </FlyoutItem.Icon>
         <ShellContent ContentTemplate="{DataTemplate pages:CategoryOperationsPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Fournisseurs" Icon="dotnet_bot.png" Route="FournisseursPage">
+    <FlyoutItem Title="Fournisseurs" Route="FournisseursPage">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="OpenSansRegular" Glyph="🏢" Color="#2563EB" />
+        </FlyoutItem.Icon>
         <ShellContent ContentTemplate="{DataTemplate pages:FournisseursPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="👥 Utilisateurs">
+    <FlyoutItem x:Name="UsersItem" Title="Utilisateurs" Route="UsersPage">
         <FlyoutItem.Icon>
             <FontImageSource FontFamily="OpenSansRegular" Glyph="👥" Color="#2563EB" />
         </FlyoutItem.Icon>
         <ShellContent ContentTemplate="{DataTemplate pages:UsersPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="🛡️ Rôles">
+    <FlyoutItem x:Name="RolesItem" Title="Rôles" Route="RolesPage">
         <FlyoutItem.Icon>
             <FontImageSource FontFamily="OpenSansRegular" Glyph="🛡️" Color="#2563EB" />
         </FlyoutItem.Icon>
         <ShellContent ContentTemplate="{DataTemplate pages:RolesPage}" />
     </FlyoutItem>
+
 
 </Shell>

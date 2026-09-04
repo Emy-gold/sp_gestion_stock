@@ -78,6 +78,7 @@ public class UsersController : ControllerBase
             Prenom = dto.Prenom.Trim(),
             Email = dto.Email.Trim(),
             Telephone = dto.Telephone?.Trim(),
+            MotDePasse = string.IsNullOrWhiteSpace(dto.MotDePasse) ? "123456" : dto.MotDePasse.Trim(),
             RoleId = dto.RoleId
         };
 
@@ -121,6 +122,10 @@ public class UsersController : ControllerBase
         user.Prenom = dto.Prenom.Trim();
         user.Email = dto.Email.Trim();
         user.Telephone = dto.Telephone?.Trim();
+        if (!string.IsNullOrWhiteSpace(dto.MotDePasse))
+        {
+            user.MotDePasse = dto.MotDePasse.Trim();
+        }
         user.RoleId = dto.RoleId;
 
         await _context.SaveChangesAsync();

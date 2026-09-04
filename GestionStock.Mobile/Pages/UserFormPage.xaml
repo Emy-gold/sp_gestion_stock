@@ -81,6 +81,19 @@
                         <Entry x:Name="TelephoneEntry" Keyboard="Telephone" Placeholder="Ex: +212 6 00 00 00 00" PlaceholderColor="#94A3B8" TextColor="#1E293B" BackgroundColor="Transparent" HeightRequest="48" />
                     </Border>
                 </VerticalStackLayout>
+
+                <!-- Mot de passe -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="MOT DE PASSE *"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#374151"
+                           CharacterSpacing="1" />
+                    <Border BackgroundColor="White" Padding="14,0" StrokeThickness="1.5" Stroke="#E2E8F0">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="10" /></Border.StrokeShape>
+                        <Entry x:Name="PasswordEntry" IsPassword="True" Placeholder="Définir un mot de passe" PlaceholderColor="#94A3B8" TextColor="#1E293B" BackgroundColor="Transparent" HeightRequest="48" />
+                    </Border>
+                </VerticalStackLayout>
                 
                 <!-- Role -->
                 <VerticalStackLayout Spacing="6">

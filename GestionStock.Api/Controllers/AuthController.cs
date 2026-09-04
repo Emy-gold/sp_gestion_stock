@@ -53,17 +53,28 @@ public class AuthController : ControllerBase
 
         // 2. Check Database Users
         var user = await _context.ApplicationUsers
+            .Include(u => u.Role)
             .FirstOrDefaultAsync(u => u.Email.ToLower() == loginDto.Email.Trim().ToLower());
 
         if (user != null)
         {
+            // Valider le mot de passe s'il est défini
+            if (!string.IsNullOrEmpty(user.MotDePasse) && user.MotDePasse != loginDto.Password)
+            {
+                return Unauthorized(new LoginResponseDto
+                {
+                    IsSuccess = false,
+                    Message = "Mot de passe incorrect."
+                });
+            }
+
             return Ok(new LoginResponseDto
             {
                 IsSuccess = true,
                 Email = user.Email,
                 Nom = user.Nom,
                 Prenom = user.Prenom,
-                Role = "Utilisateur",
+                Role = user.Role?.Nom ?? "Utilisateur",
                 Token = Guid.NewGuid().ToString(),
                 Message = "Connexion réussie."
             });

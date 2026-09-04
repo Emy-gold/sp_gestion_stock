@@ -106,6 +106,7 @@
 
         <!-- Floating Action Button (FAB) -->
         <Button Grid.Row="1"
+                x:Name="AddCategoryButton"
                 Text="＋"
                 Clicked="OnAddCategoryClicked"
                 BackgroundColor="#2563EB"

@@ -7,6 +7,7 @@ namespace GestionStock.Shared.Entities
         public string Prenom { get; set; }
         public string Email { get; set; }
         public string? Telephone { get; set; }
+        public string MotDePasse { get; set; } = "123456";
 
         public int? RoleId { get; set; }
         public Role? Role { get; set; }

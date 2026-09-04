@@ -112,7 +112,7 @@
                                    FontSize="26"
                                    FontAttributes="Bold"
                                    TextColor="#2563EB" />
-                            <Label Text="mouvements de stock"
+                            <Label Text="opérations de stock"
                                    FontSize="11"
                                    TextColor="#94A3B8" />
                         </VerticalStackLayout>

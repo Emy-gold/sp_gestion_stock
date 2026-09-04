@@ -6,17 +6,23 @@ namespace GestionStock.Mobile.Pages;
 public partial class CategoriesPage : ContentPage
 {
     private readonly CategoryArticleApiService _categoryApiService;
+    private readonly AuthService _authService;
     private List<CategoryArticleDto> _allCategories = new();
 
-    public CategoriesPage(CategoryArticleApiService categoryApiService)
+    public CategoriesPage(CategoryArticleApiService categoryApiService, AuthService authService)
     {
         InitializeComponent();
         _categoryApiService = categoryApiService;
+        _authService = authService;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+
+        var isAdmin = string.Equals(_authService.CurrentUser?.Role, "Administrateur", StringComparison.OrdinalIgnoreCase);
+        AddCategoryButton.IsVisible = isAdmin;
+
         await LoadCategoriesAsync();
     }
 
@@ -59,11 +65,17 @@ public partial class CategoriesPage : ContentPage
 
     private async void OnAddCategoryClicked(object? sender, EventArgs e)
     {
+        var isAdmin = string.Equals(_authService.CurrentUser?.Role, "Administrateur", StringComparison.OrdinalIgnoreCase);
+        if (!isAdmin) return;
+
         await Shell.Current.GoToAsync(nameof(CategoryFormPage));
     }
 
     private async void OnCategoryTapped(object? sender, TappedEventArgs e)
     {
+        var isAdmin = string.Equals(_authService.CurrentUser?.Role, "Administrateur", StringComparison.OrdinalIgnoreCase);
+        if (!isAdmin) return;
+
         if (e.Parameter is CategoryArticleDto category)
         {
             await Shell.Current.GoToAsync($"{nameof(CategoryFormPage)}?categoryId={category.Id}");

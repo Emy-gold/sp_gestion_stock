@@ -43,6 +43,9 @@ public partial class AppShell : Shell
                 initial += user.Nom[0];
 
             FlyoutAvatarInitial.Text = string.IsNullOrEmpty(initial) ? "SP" : initial.ToUpper();
+            var isAdmin = string.Equals(user.Role, "Administrateur", StringComparison.OrdinalIgnoreCase);
+            UsersItem.IsVisible = isAdmin;
+            RolesItem.IsVisible = isAdmin;
         }
     }
 

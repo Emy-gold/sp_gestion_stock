@@ -58,7 +58,6 @@ public partial class OperationFormPage : ContentPage
     {
         try
         {
-            // Load in parallel for speed
             var categoryTask    = _categoryService.GetCategoriesAsync();
             var fournisseurTask = _fournisseurService.GetFournisseursAsync();
             var articleTask     = _articleService.GetArticlesAsync();
@@ -133,10 +132,10 @@ public partial class OperationFormPage : ContentPage
     {
         HideError();
 
-        // — Validate category —
+        // — Validate category operation —
         if (CategoryPicker.SelectedIndex < 0)
         {
-            ShowError("Veuillez sélectionner un type de mouvement.");
+            ShowError("Veuillez sélectionner une catégorie d'opération.");
             return;
         }
 
@@ -148,7 +147,7 @@ public partial class OperationFormPage : ContentPage
         }
 
         // — Build DTO —
-        var category    = _categories[CategoryPicker.SelectedIndex];
+        var category = _categories[CategoryPicker.SelectedIndex];
         int? fournisseurId = FournisseurPicker.SelectedIndex >= 0
             ? _fournisseurs[FournisseurPicker.SelectedIndex].Id
             : (int?)null;
@@ -158,7 +157,7 @@ public partial class OperationFormPage : ContentPage
             Numero              = NumeroEntry.Text,
             DateOperation       = DatePicker.Date ?? DateTime.Today,
             Observation         = string.IsNullOrWhiteSpace(ObservationEditor.Text) ? null : ObservationEditor.Text.Trim(),
-            CategoryOperationId = category.Id,
+            CategoryOperationId = 0,
             FournisseurId       = fournisseurId,
             Details             = DetailLines.Select(d => new DetailOperationCreateDto
             {
@@ -180,7 +179,7 @@ public partial class OperationFormPage : ContentPage
 
             if (success)
             {
-                await DisplayAlert("Succès", "Le mouvement de stock a été enregistré.", "OK");
+                await DisplayAlert("Succès", "L'opération a été enregistrée.", "OK");
                 await Shell.Current.GoToAsync("..");
             }
             else
