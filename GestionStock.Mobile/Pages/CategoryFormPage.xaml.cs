@@ -7,6 +7,7 @@ namespace GestionStock.Mobile.Pages;
 public partial class CategoryFormPage : ContentPage
 {
     private readonly CategoryArticleApiService _categoryApiService;
+    private readonly AuthService _authService;
 
     private List<CategoryArticleDto> _categories = new();
     private CategoryArticleDto? _existingCategory;
@@ -26,16 +27,25 @@ public partial class CategoryFormPage : ContentPage
         }
     }
 
-    public CategoryFormPage(CategoryArticleApiService categoryApiService)
+    public CategoryFormPage(CategoryArticleApiService categoryApiService, AuthService authService)
     {
         InitializeComponent();
         _categoryApiService = categoryApiService;
+        _authService = authService;
         BindingContext = this;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+
+        var isAdmin = string.Equals(_authService.CurrentUser?.Role, "Administrateur", StringComparison.OrdinalIgnoreCase);
+        if (!isAdmin)
+        {
+            await DisplayAlert("Accès refusé", "Seuls les administrateurs peuvent créer ou modifier des catégories d'articles.", "OK");
+            await Shell.Current.GoToAsync("..");
+            return;
+        }
         
         if (!string.IsNullOrEmpty(CategoryId) && int.TryParse(CategoryId, out var id))
         {

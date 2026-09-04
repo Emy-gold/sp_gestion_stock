@@ -7,6 +7,7 @@ namespace GestionStock.Mobile.Pages;
 public partial class FournisseurFormPage : ContentPage
 {
     private readonly FournisseurApiService _fournisseurApiService;
+    private readonly AuthService _authService;
     private FournisseurDto? _existingFournisseur;
 
     public string? FournisseurId { get; set; }
@@ -22,16 +23,25 @@ public partial class FournisseurFormPage : ContentPage
         }
     }
 
-    public FournisseurFormPage(FournisseurApiService fournisseurApiService)
+    public FournisseurFormPage(FournisseurApiService fournisseurApiService, AuthService authService)
     {
         InitializeComponent();
         _fournisseurApiService = fournisseurApiService;
+        _authService = authService;
         BindingContext = this;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+
+        var isAdmin = string.Equals(_authService.CurrentUser?.Role, "Administrateur", StringComparison.OrdinalIgnoreCase);
+        if (!isAdmin)
+        {
+            await DisplayAlert("Accès refusé", "Seuls les administrateurs peuvent créer ou modifier des fournisseurs.", "OK");
+            await Shell.Current.GoToAsync("..");
+            return;
+        }
 
         if (!string.IsNullOrEmpty(FournisseurId) && int.TryParse(FournisseurId, out var id))
         {

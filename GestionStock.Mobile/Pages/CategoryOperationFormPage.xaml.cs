@@ -8,6 +8,7 @@ namespace GestionStock.Mobile.Pages;
 public partial class CategoryOperationFormPage : ContentPage
 {
     private readonly CategoryOperationApiService _categoryApiService;
+    private readonly AuthService _authService;
     private CategoryOperationDto? _existingCategory;
 
     public string? CategoryId { get; set; }
@@ -25,16 +26,25 @@ public partial class CategoryOperationFormPage : ContentPage
 
     public ObservableCollection<string> AttributeNames { get; set; } = new();
 
-    public CategoryOperationFormPage(CategoryOperationApiService categoryApiService)
+    public CategoryOperationFormPage(CategoryOperationApiService categoryApiService, AuthService authService)
     {
         InitializeComponent();
         _categoryApiService = categoryApiService;
+        _authService = authService;
         BindingContext = this;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+
+        var isAdmin = string.Equals(_authService.CurrentUser?.Role, "Administrateur", StringComparison.OrdinalIgnoreCase);
+        if (!isAdmin)
+        {
+            await DisplayAlert("Accès refusé", "Seuls les administrateurs peuvent créer ou modifier des catégories d'opérations.", "OK");
+            await Shell.Current.GoToAsync("..");
+            return;
+        }
         
         if (!string.IsNullOrEmpty(CategoryId) && int.TryParse(CategoryId, out var id))
         {
